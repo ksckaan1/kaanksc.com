@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path d="M0 0L30 0L30 30L0 30L0 0Z" id="path_1" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g id="Instagram-icon">
+    <path d="M0 0L30 0L30 30L0 30L0 0Z" id="Background" fill="#FFFFFF" fill-opacity="0" fill-rule="evenodd" stroke="none" />
+    <g clip-path="url(#mask_1)">
+      <path d="M9.99805 3C6.13905 3 3 6.14195 3 10.002L3 20.002C3 23.861 6.14195 27 10.002 27L20.002 27C23.861 27 27 23.858 27 19.998L27 9.99805C27 6.13905 23.858 3 19.998 3L9.99805 3L9.99805 3ZM22 7C22.552 7 23 7.448 23 8C23 8.552 22.552 9 22 9C21.448 9 21 8.552 21 8C21 7.448 21.448 7 22 7L22 7ZM15 9C18.309 9 21 11.691 21 15C21 18.309 18.309 21 15 21C11.691 21 9 18.309 9 15C9 11.691 11.691 9 15 9L15 9ZM15 11C12.7909 11 11 12.7909 11 15C11 17.2091 12.7909 19 15 19C17.2091 19 19 17.2091 19 15C19 12.7909 17.2091 11 15 11L15 11Z" id="Shape" fill="#D3D3D3" fill-rule="evenodd" stroke="none" />
+    </g>
+  </g>
+</svg>

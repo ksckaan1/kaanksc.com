@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path d="M0 0L32 0L32 32L0 32L0 0Z" id="path_1" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g id="Gitlab">
+    <path d="M0 0L32 0L32 32L0 32L0 0Z" id="Background" fill="#FFFFFF" fill-opacity="0" fill-rule="evenodd" stroke="none" />
+    <g clip-path="url(#mask_1)">
+      <path d="M8.38281 1.97266L4.07812 13.4531L3.83594 14.1055L1.79688 19.543L16 29.875L30.2031 19.543L28.1641 14.1055L23.6133 1.97266L19.8828 13.4531L12.1172 13.4531L8.38281 1.97266ZM8.25 8.02734L10.0156 13.4531L6.21484 13.4531L8.25 8.02734ZM23.75 8.02734L25.7852 13.4531L21.9844 13.4531L23.75 8.02734ZM5.46484 15.4531L10.6641 15.4531L14.0938 26.0156L4.20312 18.8203L5.46484 15.4531ZM12.7656 15.4531L19.2344 15.4531L16 25.4023L12.7656 15.4531ZM21.3359 15.4531L26.5312 15.4531L27.7969 18.8203L17.9023 26.0156L21.3359 15.4531Z" id="Shape" fill="#D3D3D3" fill-rule="evenodd" stroke="none" />
+    </g>
+  </g>
+</svg>
