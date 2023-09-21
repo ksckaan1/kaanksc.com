@@ -1,0 +1,99 @@
+---
+title: Çevrilebilen kart oluşturma (Vanilla JS/HTML/CSS)
+description: Bu yazıda size vanilla javascript/html/css kullanarak nasıl bir çevrilen (flip) kart yapacağımızı göstereceğim.
+date: '2022-04-26'
+tags:
+  - js
+  - html
+  - css
+  - card
+  - flip
+published: true
+---
+<script>
+    import FlipCard from "$lib/components/interactives/FlipCard.svelte"
+</script>
+
+Bu yazıda birkaç adımda nasıl kolayca çevrilebilir (flipable) kart yapacağımıza bakıyor olacağız.
+
+Öncelikle aşağıdaki demodan nasıl göründüğünü görelim ve deneyelim.
+
+<FlipCard/>
+
+Şimdi de kodlarımızı görelim.
+
+```html html dosyamız
+<div class="card">
+    <div class="cardFace frontFace">
+        <span>ön</span>
+    </div>
+    <div class="cardFace backFace">
+        <span>arka</span>
+    </div>
+</div>
+```
+
+Yukarıda `card` class'ımızın içerisinde 2 adet olmak üzere ön ve arka yüzümüz bulunmakta.
+
+```css css dosyamız
+.card {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.cardFace {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    color: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform .5s linear;
+    transform-style: preserve-3d;
+}
+
+.backFace {
+    background-color: blue;
+    transform: rotateY(180deg);
+}
+
+.frontFace {
+    background-color: green;
+    transform: rotateY(0deg);
+}
+
+.flipped .backFace {
+    transform: rotateY(360deg);
+}
+
+.flipped .frontFace {
+    transform: rotateY(180deg);
+}
+```
+
+İki adet kart yüzümüz bulunmakta. Normal ve çevrilmiş yüzler.
+
+`.cardFace` class'ımızdaki önem olan özelliğimiz, `backface-visibility`. Bu özelliğin değerini `hidden` değerini verdiğimizde element arkası çevrildiğinde arkasının gözükmemesi sağlanıyor.
+
+Diğer önemli özelliğimiz ise `transform-style`. Bu özelliğe `preserve-3d` değerini verdiğimizde döndürme işlemi uygulandığında 3d olarak dönmesini sağlıyor.
+
+Javascript dosyamız ise aşağıdaki gibi olması gerekiyor.
+
+```js js dosyamız
+var card = document.querySelector('.card');
+
+card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+});
+```
+
+Yukarıda `.card` class'ı kullanan elementimizin `click` etkinliğini dinledik. Bu elemente tıklandığında kendi class'ına `.flipped` class'ını ekleyip çıkaracak.
+
+Bu şekilde kolayca çevrilebilir kart yapabilirsiniz.
