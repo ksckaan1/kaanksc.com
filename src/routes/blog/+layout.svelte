@@ -124,7 +124,7 @@
     {#if scrollY > 500}
         <div transition:fly={{duration:200,y:100}}
              on:click={scrollTop}
-             class="flex justify-center items-center fixed bottom-4 right-4 w-16 cursor-pointer aspect-square rounded-full border border-white/20 bg-kPurple">
+             class="flex justify-center items-center fixed bottom-4 right-4 w-16 cursor-pointer aspect-square rounded-xl border border-white/20 bg-kPurple">
             <i class="fa-solid fa-arrow-up text-xl"></i>
         </div>
     {/if}
@@ -150,7 +150,7 @@
                         <a animate:flip={{duration:200}} href={`/blog/${post.slug}`}
                            transition:fade|global={{duration:200}}
                            on:click={toggleSearchField}
-                           class="block border-b border-white/20 pb-5 mt-5 last-of-type:border-0 last-of-type:mt-0">
+                           class="block border-b border-white/20 pb-5 mb-5 last-of-type:border-0 last-of-type:mt-0">
                             <div>
                                 <h2 class="text-kYellow text-lg">
                                     {post.title}
