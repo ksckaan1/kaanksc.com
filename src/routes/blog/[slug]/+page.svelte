@@ -24,7 +24,6 @@
 
 {#key slug}
     <div>
-
         <div
                 in:fly|global={{ duration: 200, delay: 200, y: 50 }}
                 out:fade|global={{ duration: 200 }}
@@ -40,7 +39,6 @@
                 {/each}
             </div>
         </div>
-
         <div
                 in:fly|global={{ duration: 200, delay: 400, y: 50 }}
                 out:fade|global={{ duration: 200 }}
@@ -50,8 +48,6 @@
                 <svelte:component this={data.content}/>
                 <hr>
             </div>
-
-
             <div class="max-w-3xl w-full mx-auto p-5">
                 <Avatar/>
             </div>
