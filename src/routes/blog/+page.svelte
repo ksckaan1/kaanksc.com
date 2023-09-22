@@ -25,8 +25,8 @@
 
 <div
         class="main-template my-10 pt-0 pb-14 lg:pb-0"
-        in:fade={{ delay: 200, duration: 200 }}
-        out:fade={{ duration: 200 }}
+        in:fade|global={{ delay: 200, duration: 200 }}
+        out:fade|global={{ duration: 200 }}
 >
     {#if isLoaded}
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5">
@@ -51,19 +51,5 @@
 </div>
 
 <style lang="postcss">
-    .hidden-check {
-        @apply hidden;
-    }
 
-    .hidden-check:checked + label {
-        @apply px-2 py-1.5 bg-kYellow text-kPurple;
-    }
-
-    .hidden-check + label {
-        @apply px-2 py-1.5 bg-transparent text-kYellow border border-kYellow transition-all duration-200 cursor-pointer;
-    }
-
-    .active-tag-btn {
-        @apply bg-white/20;
-    }
 </style>
