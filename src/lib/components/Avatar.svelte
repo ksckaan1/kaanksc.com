@@ -1,5 +1,5 @@
 <script lang="ts">
-    import avatarImg from "$lib/img/avatar.jpg"
+    import avatarImg from "$lib/img/avatar.webp"
 </script>
 
 <div class="p-5 bg-kPurpleDark border border-white/20 rounded-lg flex gap-x-5">

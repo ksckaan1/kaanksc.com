@@ -2,8 +2,8 @@
     import {fly} from "svelte/transition";
     import {afterNavigate, goto} from "$app/navigation";
     import {onMount} from "svelte";
-    import menuIcon from "$lib/img/icons/menu.svg";
-    import closeIcon from "$lib/img/icons/close.svg";
+    import MenuButton from "$lib/components/MenuButton.svelte";
+    import CloseButton from "$lib/components/CloseButton.svelte";
     import logo from "$lib/img/logo.svg";
 
     let isLoaded = false;
@@ -50,12 +50,7 @@
     <header class="main-template">
         <img on:click={() => goto("/")} class="logo" src={logo} alt="logo"/>
         <nav class="mobile">
-            <img
-                    alt=""
-                    class="btn"
-                    on:click={() => (isDrawerActive = true)}
-                    src={menuIcon}
-            />
+            <MenuButton on:click={() => isDrawerActive = true}/>
         </nav>
         {#if isLoaded}
             <nav class="desktop">
@@ -76,12 +71,7 @@
             in:fly={{ x: -300, duration: 500 }}
             out:fly={{ duration: 500, x: -300 }}
     >
-        <img
-                class="btn"
-                src={closeIcon}
-                alt=""
-                on:click={() => (isDrawerActive = false)}
-        />
+        <CloseButton on:click={() => isDrawerActive = false}/>
 
         <nav class="mobile-menu">
             {#each navItems as link, i}

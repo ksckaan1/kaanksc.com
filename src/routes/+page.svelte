@@ -1,6 +1,6 @@
 <script lang="ts">
     import {fade, fly} from "svelte/transition";
-    import pp from "$lib/img/pp.png";
+    import pp from "$lib/img/pp.webp";
     import quoteStart from "$lib/img/quote-start.png";
     import quoteEnd from "$lib/img/quote-end.png";
     import {onMount} from "svelte";

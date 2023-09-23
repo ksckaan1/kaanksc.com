@@ -4,7 +4,6 @@
     import type {Post} from "$lib/models/types";
     import {formatDate} from "../../utils/format";
     import {onDestroy, onMount} from "svelte";
-    import KeyCMDK from "$lib/components/keys/KeyCMDK.svelte";
     import {browser} from "$app/environment";
 
     let showSearchField = false
@@ -15,7 +14,7 @@
 
     const listenOpenSearchFieldKey = (e: KeyboardEvent) => {
         if (e.repeat) return;
-        if ((e.metaKey || e.ctrlKey) && key === "k") toggleSearchField()
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") toggleSearchField()
     }
 
     const listenCloseSearchFieldKey = (e: KeyboardEvent) => {
@@ -91,7 +90,10 @@
 </script>
 <svelte:window bind:scrollY={scrollY}/>
 
-<div class="main-template mt-10">
+<div
+        in:fade={{duration:200, delay:200}}
+        out:fade={{duration:200}}
+        class="main-template mt-10">
     <div class="flex justify-between items-center">
         <a href="/blog"
            class="section-title"
@@ -102,15 +104,15 @@
         <div in:fly|global={{ duration: 200, x: 100, delay: 500 }}>
             <button
                     on:click={toggleSearchField}
-                    class="flex gap-x-1 items-center px-2 py-1 bg-black/20 rounded border border-white/20"
+                    class="flex gap-x-1 items-center px-2 py-2 bg-black/20 rounded border border-white/20"
             >
                 <i class="fa-solid fa-magnifying-glass"/>
-                <span>Ara</span>
+                <span class="ml-2">Ara</span>
                 <span class="hidden lg:flex ml-2 gap-x-1 h-4 items-center opacity-40">
                     {#if isMac}
-                    <KeyCMDK/>
+                        ⌘ + K
                     {:else}
-                        <span>CTRL + K</span>
+                        CTRL K
                     {/if}
                 </span>
             </button>
@@ -119,7 +121,8 @@
 </div>
 
 {#if showSearchField}
-    <div transition:blur|global={{duration:200}} class="searchbg" on:click|self={toggleSearchField}>
+    <div in:blur|global={{duration:200}} out:blur={{duration:200,delay:200}} class="searchbg"
+         on:click|self={toggleSearchField}>
         <div class="flex flex-col gap-y-5 mx-auto max-w-5xl overflow-hidden p-5 w-full h-full lg:h-1/2 bg-black/50 backdrop-blur-sm lg:rounded-lg lg:border lg:border-white/20">
             <div class="flex gap-x-2">
                 <input bind:this={searchInput} bind:value={searchText}

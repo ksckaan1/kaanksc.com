@@ -26,7 +26,7 @@
     {#key slug}
         <div
                 in:fly|global={{ duration: 200, delay: 200, y: 50 }}
-                out:fade|global={{ duration: 200, delay: 200}}
+                out:fade|global={{ duration: 200}}
                 class="wta flex flex-col my-5 mx-auto max-w-5xl lg:bg-black/20 lg:rounded-lg lg:border lg:border-white/20 p-5"
         >
             <div class="text-kYellow text-2xl sm:text-4xl font-bold">{data.meta.title}</div>
@@ -41,7 +41,7 @@
         </div>
         <div
                 in:fly|global={{ duration: 200, delay: 400, y: 50 }}
-                out:fade|global={{ duration: 200, delay: 200}}
+                out:fade|global={{ duration: 200}}
                 class="bg-zinc-900 border-t-8 border-kWhite/20 pb-20 lg:pb-0"
         >
             <div class="prose prose-invert text-kWhite p-5 max-w-3xl w-full mx-auto">
