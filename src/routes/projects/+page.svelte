@@ -129,6 +129,10 @@
     <meta property="og:description"
           content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz."/>
     <meta property="og:image" content="https://kaanksc.com/og/main.webp"/>
+    <meta name="twitter:title" content="Projeler | Kaan Kuscu">
+    <meta name="twitter:description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz.">
+    <meta property="twitter:image:src" content="https://kaanksc.com/og/main.webp"/>
 </svelte:head>
 
 <div class="main-template my-10"
