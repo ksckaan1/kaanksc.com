@@ -4,7 +4,7 @@
     import {onMount} from "svelte";
     import MenuButton from "$lib/components/MenuButton.svelte";
     import CloseButton from "$lib/components/CloseButton.svelte";
-    import logo from "$lib/img/logo.svg";
+    import Logo from "$lib/components/Logo.svelte";
 
     let isLoaded = false;
 
@@ -48,7 +48,7 @@
 
 <div class="top">
     <header class="main-template">
-        <img on:click={() => goto("/")} class="logo" src={logo} alt="logo"/>
+        <Logo on:click={() => goto("/")}/>
         <nav class="mobile">
             <MenuButton on:click={() => isDrawerActive = true}/>
         </nav>
