@@ -55,7 +55,7 @@
     <meta name="twitter:title" content="Kaan Kuscu - Backend Developer">
     <meta name="twitter:description"
           content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Çoğunlukla Go programlama dili ile geliştirme yapıyorum.">
-    <meta property="twitter:image:src" content="https://kaanksc.com/og/main.webp"/>
+    <meta property="twitter:image" content="https://kaanksc.com/og/main.webp"/>
 </svelte:head>
 
 <div

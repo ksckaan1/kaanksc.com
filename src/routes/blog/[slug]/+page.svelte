@@ -27,7 +27,7 @@
     <meta name="twitter:title" content="{data.meta.title} | Kaan Kuscu">
     <meta name="twitter:description"
           content={data.meta.description}>
-    <meta property="twitter:image:src" content="https://kaanksc.com/og/post-{slug}.webp"/>
+    <meta property="twitter:image" content="https://kaanksc.com/og/post-{slug}.webp"/>
 </svelte:head>
 
 <div>
