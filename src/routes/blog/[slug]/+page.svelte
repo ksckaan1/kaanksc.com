@@ -19,7 +19,6 @@
     <title>{data.meta.title} | Kaan Kuscu - Backend Developer</title>
     <meta name="description" content={data.meta.description}/>
     <meta name="keywords" content={data.meta.tags.join(", ")}/>
-    <meta name="author" content="Kaan Kuscu"/>
 </svelte:head>
 
 <div>
@@ -29,7 +28,7 @@
                 out:fade|global={{ duration: 200}}
                 class="wta flex flex-col my-5 mx-auto max-w-5xl lg:bg-black/20 lg:rounded-lg lg:border lg:border-white/20 p-5"
         >
-            <div class="text-kYellow text-2xl sm:text-4xl font-bold">{data.meta.title}</div>
+            <h1 class="text-kYellow text-2xl sm:text-4xl font-bold">{data.meta.title}</h1>
             <div class="font-light text-xl mt-3 text-kWhite/50">
                 {formatDate(data.meta.date)}
             </div>

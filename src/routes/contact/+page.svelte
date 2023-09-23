@@ -58,6 +58,9 @@
     <title>
         İletişim | Kaan Kuscu - Backend Developer
     </title>
+    <meta name="description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz"/>
+    <meta name="keywords" content="kaan, kuscu, iletişim, go, programlama, linux, blog, yazılım"/>
 </svelte:head>
 
 <div class="main-template my-10"

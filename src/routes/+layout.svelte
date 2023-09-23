@@ -3,5 +3,9 @@
     import Header from "$lib/components/Header.svelte";
 </script>
 
-<Header />
-<slot />
+<svelte:head>
+    <meta name="author" content="Kaan Kuscu"/>
+</svelte:head>
+
+<Header/>
+<slot/>

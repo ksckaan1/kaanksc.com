@@ -121,6 +121,9 @@
     <title>
         Projeler | Kaan Kuscu - Backend Developer
     </title>
+    <meta name="description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz"/>
+    <meta name="keywords" content="kaan, kuscu, projeler, go, programlama, linux, blog, yazılım"/>
 </svelte:head>
 
 <div class="main-template my-10"

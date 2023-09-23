@@ -21,6 +21,9 @@
 
 <svelte:head>
     <title>Blog | Kaan Kuscu - Backend Developer</title>
+    <meta name="description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Tüm blog yazılarıma bu sayfadan ulaşabilirsiniz."/>
+    <meta name="keywords" content="kaan, kuscu, blog, go, programlama, linux, blog, yazılım"/>
 </svelte:head>
 
 <div
