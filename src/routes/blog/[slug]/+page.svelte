@@ -16,9 +16,14 @@
 </script>
 
 <svelte:head>
-    <title>{data.meta.title} | Kaan Kuscu - Backend Developer</title>
+    <title>{data.meta.title} | Kaan Kuscu</title>
     <meta name="description" content={data.meta.description}/>
     <meta name="keywords" content={data.meta.tags.join(", ")}/>
+    <meta property="og:title" content="{data.meta.title} | Kaan Kuscu"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description"
+          content={data.meta.description}/>
+    <meta property="og:image" content="https://kaanksc.com/og/post-{slug}.webp"/>
 </svelte:head>
 
 <div>

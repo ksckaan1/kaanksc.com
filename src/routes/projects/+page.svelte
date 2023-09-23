@@ -119,11 +119,16 @@
 </script>
 <svelte:head>
     <title>
-        Projeler | Kaan Kuscu - Backend Developer
+        Projeler | Kaan Kuscu
     </title>
     <meta name="description"
-          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz"/>
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz."/>
     <meta name="keywords" content="kaan, kuscu, projeler, go, programlama, linux, blog, yazılım"/>
+    <meta property="og:title" content="Projeler | Kaan Kuscu"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Bu sayfadan projelerime göz atabilirsiniz."/>
+    <meta property="og:image" content="https://kaanksc.com/og/main.webp"/>
 </svelte:head>
 
 <div class="main-template my-10"

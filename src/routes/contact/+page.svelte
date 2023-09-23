@@ -56,11 +56,16 @@
 
 <svelte:head>
     <title>
-        İletişim | Kaan Kuscu - Backend Developer
+        İletişim | Kaan Kuscu
     </title>
     <meta name="description"
-          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz"/>
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz."/>
     <meta name="keywords" content="kaan, kuscu, iletişim, go, programlama, linux, blog, yazılım"/>
+    <meta property="og:title" content="İletişim | Kaan Kuscu"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz."/>
+    <meta property="og:image" content="https://kaanksc.com/og/main.webp"/>
 </svelte:head>
 
 <div class="main-template my-10"

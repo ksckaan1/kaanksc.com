@@ -20,10 +20,15 @@
 </script>
 
 <svelte:head>
-    <title>Blog | Kaan Kuscu - Backend Developer</title>
+    <title>Blog | Kaan Kuscu</title>
     <meta name="description"
           content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Tüm blog yazılarıma bu sayfadan ulaşabilirsiniz."/>
     <meta name="keywords" content="kaan, kuscu, blog, go, programlama, linux, blog, yazılım"/>
+    <meta property="og:title" content="Blog | Kaan Kuscu"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description"
+          content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Tüm blog yazılarıma bu sayfadan ulaşabilirsiniz."/>
+    <meta property="og:image" content="https://kaanksc.com/og/main.webp"/>
 </svelte:head>
 
 <div
