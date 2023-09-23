@@ -1,4 +1,3 @@
-// @ts-ignore
 import type {Post} from "$lib/models/types";
 
 export async function GET() {
