@@ -13,6 +13,14 @@
             path = [...$page.url.pathname.split("/")]
         }
     }
+
+    const createOGImageLink = (title: string) => {
+        const sp = new URLSearchParams({
+            title: title
+        })
+
+        return `https://og.kaanksc.com/og?${sp.toString()}`
+    }
 </script>
 
 <svelte:head>
@@ -23,11 +31,11 @@
     <meta property="og:type" content="article"/>
     <meta property="og:description"
           content={data.meta.description}/>
-    <meta property="og:image" content="https://kaanksc.com/og/post-{slug}.webp"/>
+    <meta property="og:image" content={createOGImageLink(data.meta.title)}/>
     <meta name="twitter:title" content="{data.meta.title} | Kaan Kuscu">
     <meta name="twitter:description"
           content={data.meta.description}>
-    <meta property="twitter:image" content="https://kaanksc.com/og/post-{slug}.webp"/>
+    <meta property="twitter:image" content={createOGImageLink(data.meta.title)}/>
 </svelte:head>
 
 <div>
