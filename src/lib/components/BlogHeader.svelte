@@ -112,7 +112,7 @@
                     {#if isMac}
                         ⌘ + K
                     {:else}
-                        CTRL K
+                        CTRL + K
                     {/if}
                 </span>
             </button>
@@ -136,7 +136,7 @@
                 </button>
             </div>
             {#if filteredList.length > 0 && searchText !== "" }
-                <div class="flex-1 gap-y-5 overflow-y-auto scroll">
+                <div class="results">
                     {#each filteredList as post (post.slug)}
                         <a animate:flip={{duration:200}} href={`/blog/${post.slug}`}
                            transition:fade|global={{duration:200}}
@@ -185,5 +185,9 @@
         width: 100dvw;
         height: 100dvh;
         z-index: 999;
+    }
+
+    .results {
+        @apply flex-1 gap-y-5 overflow-y-auto scrollbar-track-white/5 scrollbar-thumb-kYellow scrollbar;
     }
 </style>
