@@ -27,11 +27,11 @@ Anlam tablomuzu görelim
 | `A<<B`            | Left Shift(Sola Kaydırma)  |
 | `A>>B`            | Right Shift(Sağa Kaydırma) |
 
-## & -AND(VE) Operatörü
+## `&` AND (VE) Operatörü
 
 Anlaşılır bir örnek olması için 1 ve 0 sayılarından örnek görelim.
 
-![and-operatoru](/img/post-images/and_operator.webp)
+![and-operatoru](./assets/img/and_operator.webp)
 
 Yani `A` ve`B` binary bitini `&` ile karşılaştırmamız basitçe bu 2 biti birbiri ile binary biti olarak çarpmamız anlamına geliyor.
 
@@ -41,13 +41,13 @@ Yani `A` ve`B` binary bitini `&` ile karşılaştırmamız basitçe bu 2 biti bi
 fmt.Println(1&0) // 0
 ```
 
-## &^ -AND NOT(VE DEĞİL) Operatörü
+## `&^` AND NOT (VE DEĞİL) Operatörü
 
-![and-not-operatoru](/img/post-images/and_not_operator.webp)
+![and-not-operatoru](./assets/img/and_not_operator.webp)
 
-## | - OR (VEYA) Operatörü
+## `|` OR (VEYA) Operatörü
 
-![or-operatoru](/img/post-images/or_operator.webp)
+![or-operatoru](./assets/img/or_operator.webp)
 
 Farklı şekilde düşünürsek `A` ile `B`'nin toplamı 0 değilse 1'dir. `A+B=C` formülü `A` ve `B`'nin 1 olduğunu durumda 2 çıktığı için doğru bir önerme değildir fakat `2` diye bir binary biti olmadığı için 1 olarak düşünebiliriz. Bu da farklı bir akılda tutma yöntemi olmakla beraber kullanıp kullanmamak size kalmış. Ne kadar doğru olmasa da 😏
 
@@ -57,15 +57,15 @@ Farklı şekilde düşünürsek `A` ile `B`'nin toplamı 0 değilse 1'dir. `A+B=
 fmt.Println(1|0) // 1
 ```
 
-## ^ - XOR (ÖZEL VEYA) Operatörü
+## `^` XOR (ÖZEL VEYA) Operatörü
 
-![xor-operatoru](/img/post-images/xor_operator.webp)
+![xor-operatoru](./assets/img/xor_operator.webp)
 
-## ^ - NOT (DEĞİL) Operatörü
+## `^` NOT (DEĞİL) Operatörü
 
 Bir de bu operatörün NOT işlemi için kullanımı vardır. XOR'dan yazım olarak farkı sadece sağ tarafında değişken belirtilmesidir.
 
-![not-operatoru](/img/post-images/not_operator.webp)
+![not-operatoru](./assets/img/not_operator.webp)
 
 Örnek:
 
@@ -121,7 +121,7 @@ fmt.Println(xBinary) //00000111
 
 Aramızda hangi mantık ile dönüştürüldüğünü öğrenmek isteyenler olabilir. Onlar için görelim.
 
-![dec-to-bin](/img/post-images/dec_to_bin.webp)
+![dec-to-bin](./assets/img/dec_to_bin.webp)
 
 Nasıl dönüştürme yaptığımızın mantığını öğrendiğimize göre kendimiz de bunun için bir fonksiyon üretebiliriz.
 
@@ -222,7 +222,7 @@ Daha fazla detayları kurcalamak isteyenler incelemeye devam edebilir. Konuyu uz
 
 #### Peki kendimiz Binary değeri, Decimal değere nasıl çeviririz?
 
-![bin-to-dec](/img/post-images/bin_to_dec.webp)
+![bin-to-dec](./assets/img/bin_to_dec.webp)
 
 !> Binary sayılarda, decimal sayılardaki gibi sol tarafdaki basamak veya basamakların 0 olması sayıya değer katmaz. `0101 = 101`
 
@@ -302,13 +302,13 @@ Yani `13 | 7` karşılaştırması yapıldığında aslında `1101` ve `111` bin
 fmt.Println(13 | 7) // 15
 ```
 
-`OR` operatörünü anlattığım bölümde bitleri karşılaştırıp ne sonuç verdiklerini gördük. Aslında mantıken `if-else`'de kullandığımız `||` operatörü ile aynı natık ile çalışır.
+`OR` operatörünü anlattığım bölümde bitleri karşılaştırıp ne sonuç verdiklerini gördük. Aslında mantıken `if-else`'de kullandığımız `||` operatörü ile aynı mantık ile çalışır.
 
 Şimdi arkaplanda gerçekleşen olaya bakalım. Yani `13 | 7` karşılaştırmasında `15` nasıl bulunduğuna.
 
 `13` ve `7` decimal sayılarının binary karşılıklarını `OR` mantığı ile karşılaştırmak için basamak uzunluğunu eşitleyelim.
 
-![or-example](/img/post-images/or_example.webp)
+![or-example](./assets/img/or_example.webp)
 
 
 `&` operatörünü incelemek için `13&7` işleminin sonucuna bakalım.
@@ -319,7 +319,7 @@ fmt.Println(13 & 7) // 5
 
 Bu işlemde `5` sonucunun nasıl bulunduğuna bakalım.
 
-![and-example](/img/post-images/and_example.webp)
+![and-example](./assets/img/and_example.webp)
 
 Bir de `^` - XOR (ÖZEL VEYA) için olan örneğimizi görelim.
 
@@ -331,7 +331,7 @@ fmt.Println(13 ^ 7) // 10
 
 Nasıl `10` sonucunun bulunduğuna bakalım.
 
-![xor-example](/img/post-images/xor_example.webp)
+![xor-example](./assets/img/xor_example.webp)
 
 Örneklerimizde `or`, `and` ve `xor` operatörlerinin kullanımlarını ve arkaplanda ne işlemler gerçekleştiğini gördük. Bu işlemlerimizde söz konusu olan bit rakamlarının karşılaştırılması ve buna göre sonuç üretilmesiydi. Sıra geldi shift için kullandığımız operatörlere.
 
@@ -387,7 +387,7 @@ fmt.Printf("%08b %d \n", x, x) //11000000 192
 // Bu yüzden değerimiz 448 yerine 192 olduo
 ```
 
-![left-shift](/img/post-images/left_shift.webp)
+![left-shift](./assets/img/left_shift.webp)
 
 ## `>>` - Shift Right (Sağa kaydır)
 
@@ -399,6 +399,11 @@ x = x >> 1
 fmt.Printf("%08b %d \n", x, x) // 00000011 3
 ```
 
-![right-shift](/img/post-images/right_shift.webp)
+![right-shift](./assets/img/right_shift.webp)
 
 Okuduğunuz için teşekkürler. Umarım bir faydası dokunmuştur.
+
+## Kaynaklar
+
+- [https://pkg.go.dev/strconv#ParseInt](https://pkg.go.dev/strconv#ParseInt)
+- [https://www.tutorialspoint.com/go/go_bitwise_operators.htm](https://www.tutorialspoint.com/go/go_bitwise_operators.htm)

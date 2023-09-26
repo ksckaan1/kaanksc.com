@@ -4,6 +4,7 @@ import remarkEmoji from "remark-emoji"
 import remarkHint from "remark-hint"
 import {mdsvex} from "mdsvex";
 import {customHighlighter} from "./src/utils/custom_highlighter.js";
+import relativeImages from "mdsvex-relative-images";
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
@@ -14,6 +15,7 @@ const mdsvexOptions = {
     remarkPlugins: [
         remarkEmoji,
         remarkHint,
+        relativeImages,
     ],
     layout: {
         _: './src/layouts/mdsvex.svelte'

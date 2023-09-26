@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    @apply min-h-screen bg-gopherbg bg-repeat-x overflow-x-hidden bg-kPurpleDark bg-left-top text-kWhite pt-16 lg:pt-20
+    @apply min-h-screen bg-gopherbg bg-repeat-x overflow-x-hidden bg-kPurpleDark bg-left-top text-kWhite pt-16 lg:pt-20 scrollbar scrollbar-thumb-kYellow scrollbar-track-kPurpleDark
 }
 
 .main-template {
@@ -55,11 +55,15 @@ body {
 }
 
 .prose pre {
-    @apply border-b border-l border-r border-white/20 rounded-t-none mt-0
+    @apply border-b border-l border-r border-white/20 rounded-t-none mt-0 scrollbar scrollbar-thumb-kYellow scrollbar-track-white/20
 }
 
 .prose a {
     @apply text-kYellow
+}
+
+.prose > p > img {
+    @apply rounded border border-white/20
 }
 
 .hint {
