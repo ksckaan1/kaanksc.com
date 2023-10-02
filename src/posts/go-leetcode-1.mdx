@@ -106,3 +106,19 @@ func reverseWord(w string) string {
 	return string(result)
 }
 ```
+
+veya alternatif olarak
+
+```go
+func reverseWords(s string) string {
+	words := strings.Split(s, " ")
+
+	for i := range words {
+		word := []rune(words[i])
+		slices.Reverse(word)
+		words[i] = string(word)
+	}
+
+	return strings.Join(words, " ")
+}
+```
