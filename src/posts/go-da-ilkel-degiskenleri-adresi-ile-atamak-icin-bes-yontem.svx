@@ -2,14 +2,8 @@
 title: Go'da ilkel değerleri direkt olarak adresi ile atamak için 5 yöntem
 description: Bu yazıda Go programlama dilinde ilkel değerleri işaretçi değişkenlere direk olarak nasıl atayacağımızı anlattım.
 date: '2023-07-29'
-tags:
-  - go
-  - pointer
-  - işaretçi
-  - primitive
-  - ilkel
-  - değişken
-  - atama
+tags: ['go', 'pointer', 'işaretçi', 'primitive', 'ilkel', 'değişken','atama']
+authors: ['ksckaan1']
 published: true
 ---
 

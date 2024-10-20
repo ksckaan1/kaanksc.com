@@ -1,16 +1,16 @@
+import { mdsvex } from "mdsvex";
 import adapter from '@sveltejs/adapter-auto';
-import {vitePreprocess} from '@sveltejs/kit/vite';
-import remarkEmoji from "remark-emoji"
-import remarkHint from "remark-hint"
-import {mdsvex} from "mdsvex";
-import {customHighlighter} from "./src/utils/custom_highlighter.js";
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import remarkEmoji from "remark-emoji";
+import remarkHint from "remark-hint";
 import relativeImages from "mdsvex-relative-images";
+import { createHighlighter } from "@bitmachina/highlighter";
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
-    extensions: ['.mdx'],
+    extensions: ['.svx'],
     highlight: {
-        highlighter: customHighlighter,
+        highlighter: await createHighlighter({ theme: "github-dark" }),
     },
     remarkPlugins: [
         remarkEmoji,
@@ -24,11 +24,13 @@ const mdsvexOptions = {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    extensions: ['.svelte', '.mdx'],
-    preprocess: [mdsvex(mdsvexOptions), vitePreprocess()],
+    preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 
     kit: {
         adapter: adapter()
-    }
+    },
+
+    extensions: [".svelte", ".svx"]
 };
+
 export default config;

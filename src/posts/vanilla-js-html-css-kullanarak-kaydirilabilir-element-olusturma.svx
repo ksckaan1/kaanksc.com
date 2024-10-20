@@ -2,12 +2,8 @@
 title: Kaydırılabilir element oluşturma (Vanilla JS/HTML/CSS)
 description: Bu yazıda ek bir kütüphane kullanmadan nasıl kaydırılabilir element oluşturacağımıza bakacağız.
 date: '2022-04-23'
-tags:
-  - js
-  - html
-  - css
-  - swipe
-  - element
+tags: ['js', 'html', 'css', 'swipe', 'element']
+authors: ['ksckaan1']
 published: true
 ---
 
@@ -19,7 +15,7 @@ Herşeyden önce son halini bir görelim.
 
 Bu yazıda sadece javascript tarafını inceliyor olacağız. Aşağıda `style.css` son halini bulabilirsiniz.
 
-```css
+```css showLineNumbers {3..5,7}
 /* reset css */
 * {
     margin: 0;

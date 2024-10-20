@@ -1,0 +1,65 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  @apply font-poppins bg-black text-slate-300 scrollbar scrollbar-thumb-primary scrollbar-track-black;
+}
+
+.gridbg {
+  background-image: linear-gradient(to right, #ececec18 1px, transparent 1px),
+    linear-gradient(to bottom, #ececec18 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.section-title {
+  @apply text-black text-4xl sm:text-6xl font-black tracking-widest;
+  -webkit-text-stroke: 1px rgb(245 179 47);
+}
+
+
+/* POST STYLES */
+
+
+.prose code:not(pre code) {
+  @apply py-0.5 px-1.5 bg-white/10 rounded text-primary mr-1 before:hidden after:hidden
+}
+
+.prose pre code {
+  @apply flex flex-col
+}
+
+.prose pre {
+  @apply flex flex-col gridbg p-5 rounded border border-white/20;
+}
+
+.prose blockquote {
+  @apply before:hidden after:hidden
+}
+
+.prose a {
+  @apply text-primary
+}
+
+.prose>p>img {
+  @apply rounded border border-white/20
+}
+
+.hint {
+  @apply z-0 rounded border border-white/20 p-3.5 pl-14 bg-no-repeat bg-[length:1.5rem];
+  background-position: 1rem 1rem;
+}
+
+.hint.warn {
+  @apply bg-orange-600/50 text-white bg-[url('/img/warning-hint.png')]
+}
+
+.hint.error {
+  @apply bg-red-600/50 text-white bg-[url('/img/danger-hint.png')]
+}
+
+.hint.tip {
+  @apply bg-sky-600/50 text-white bg-[url('/img/info-hint.png')]
+}

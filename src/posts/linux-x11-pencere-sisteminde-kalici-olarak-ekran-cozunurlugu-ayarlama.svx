@@ -2,12 +2,8 @@
 title: GNU/Linux X11 pencere yöneticisinde kalıcı olarak ekran çözünürlüğü ayarlama
 description: Bu yazıda X11 pencere yönetici kullanan dağıtımlarda nasıl kalıcı olarak ekran çözünürlüğünü değiştireceğimizi yazdım.
 date: '2022-03-25'
-tags:
-  - linux
-  - x11
-  - ekran
-  - çözünürlük
-  - ayar
+tags: ['linux', 'x11', 'ekran', 'çözünürlük', 'ayar']
+authors: ['ksckaan1']
 published: true
 ---
 

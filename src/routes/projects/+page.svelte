@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { fade, fly } from "svelte/transition";
     import { onMount } from "svelte";
     import { getRepositories } from "../../utils/github";
     import type { IRepo } from "$lib/models/github";
@@ -7,6 +6,7 @@
     import externalIcon from "$lib/img/icons/external.svg";
     import forkIcon from "$lib/img/icons/fork.svg";
     import starIcon from "$lib/img/icons/star.svg";
+    import { ripple } from "svelte-ripple-action";
 
     const showcase = [
         {
@@ -53,6 +53,25 @@
             name: "Araçlar",
             type: "tools",
             items: [
+                {
+                    title: "Hexago",
+                    description:
+                        "Go programlama dili için Hexagonal mimari proje yönetim CLI aracı",
+                    url: "https://github.com/ksckaan1/hexago",
+                    icon: externalIcon,
+                },
+                {
+                    title: "IconifyDL",
+                    description: "Iconify için icon indirici CLI aracı",
+                    url: "https://github.com/ksckaan1/iconifydl",
+                    icon: externalIcon,
+                },
+                {
+                    title: "APIredator",
+                    description: "API Loading Testing aracı",
+                    url: "https://github.com/ksckaan1/apiredator",
+                    icon: externalIcon,
+                },
                 {
                     title: "Go Snippets Plugin",
                     description: "Nova Editor için snippet eklentisi",
@@ -167,24 +186,15 @@
     />
 </svelte:head>
 
-<div
-    class="main-template my-10"
-    in:fade={{ duration: 200, delay: 200 }}
-    out:fade={{ duration: 200 }}
->
+<div class="max-w-5xl mx-auto p-5">
     <div class="section-title">PROJELER</div>
     <div class="mt-5 grid gap-y-5">
         {#each showcase as cat, c}
             <div
-                class="border border-white/20 rounded-lg overflow-hidden bg-black/20"
-                in:fly|global={{
-                    duration: 200,
-                    delay: (c + 1) * 100 + 200,
-                    y: 100,
-                }}
+                class="border border-white/20 rounded-lg overflow-hidden gridbg"
             >
                 <h1
-                    class="text-2xl text-kYellow font-bold px-3 py-2 backdrop-blur-sm bg-white/10 border-b border-white/20"
+                    class="text-2xl text-primary font-bold px-3 py-2 bg-black border-b border-white/20"
                 >
                     {cat.name}
                 </h1>
@@ -193,14 +203,10 @@
                         <a
                             target="_blank"
                             href={item.url}
-                            class="item hover:bg-black/20 transition-colors"
-                            in:fly|global={{
-                                y: 30,
-                                duration: 200,
-                                delay: (i + 1) * 50 + 500,
-                            }}
+                            use:ripple
+                            class="item hover:bg-black/20 text-primary transition-colors"
                         >
-                            <div class="flex-1">
+                            <div class="flex-1 text-slate-300">
                                 <h2 class="text-lg">
                                     {item.title}
                                 </h2>
@@ -218,27 +224,22 @@
     <div class="mt-5">
         {#if isReposLoaded && repos.length !== 0}
             <div
-                class="border border-white/20 rounded-lg overflow-hidden bg-black/20"
-                in:fly|global={{ duration: 200, delay: 600, y: 100 }}
+                class="border border-white/20 rounded-lg overflow-hidden gridbg"
             >
                 <h1
-                    class="text-2xl text-kYellow font-bold px-3 py-2 backdrop-blur-sm bg-white/10 border-b border-white/20"
+                    class="text-2xl text-primary font-bold px-3 py-2 bg-black border-b border-white/20"
                 >
                     GitHub
                 </h1>
                 <div class="cat">
                     {#each repos as repo, i}
                         <a
+                            use:ripple
                             target="_blank"
                             href={repo.html_url}
-                            class="item hover:bg-black/20 transition-colors"
-                            in:fly|global={{
-                                y: 30,
-                                duration: 200,
-                                delay: (i + 1) * 50 + 500,
-                            }}
+                            class="item hover:bg-black/20 text-primary transition-colors"
                         >
-                            <div class="flex-1">
+                            <div class="flex-1 text-slate-300">
                                 <h2 class="text-lg">
                                     {repo.name}
                                 </h2>

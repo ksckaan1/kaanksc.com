@@ -2,12 +2,8 @@
 title: KDE Plasma Masaüstü için şablon dosya oluşturalım
 description: Bu yazıda size KDE Plasma masaüstü için şablon dosyanızı nasıl oluşturacağınızı gösteriyor olacağım.
 date: '2020-01-19'
-tags:
-  - linux
-  - kde
-  - plasma
-  - template
-  - şablon
+tags: ['linux', 'kde', 'plasma', 'template', 'şablon']
+authors: ['ksckaan1']
 published: true
 ---
 

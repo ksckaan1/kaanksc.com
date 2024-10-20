@@ -2,12 +2,8 @@
 title: Çevrilebilen kart oluşturma (Vanilla JS/HTML/CSS)
 description: Bu yazıda size vanilla javascript/html/css kullanarak nasıl bir çevrilen (flip) kart yapacağımızı göstereceğim.
 date: '2022-04-26'
-tags:
-  - js
-  - html
-  - css
-  - card
-  - flip
+tags: ['js', 'html', 'css', 'card', 'flip']
+authors: ['ksckaan1']
 published: true
 ---
 <script>

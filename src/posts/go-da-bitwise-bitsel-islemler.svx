@@ -2,12 +2,8 @@
 title: Go'da Bitwise (Bitsel) İşlemler
 description: Bu yazıda Go'da Bitwise işlemlerden ve operatörlerden bahsettim.
 date: '2023-09-24'
-tags:
-  - go
-  - bitwise
-  - bitsel
-  - işlemler
-  - operatörler
+tags: ['go', 'bitwise', 'bitsel', 'işlemler', 'operatörler']
+authors: ['ksckaan1']
 published: true
 ---
 
