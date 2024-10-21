@@ -25,7 +25,7 @@
     if (browser) {
       let out = await codeToHtml(unescape(code), {
         lang,
-        theme: "github-dark",
+        theme: "ayu-dark",
         transformers: [transformerNotationDiff(), transformerMetaHighlight()],
       });
 
