@@ -24,7 +24,7 @@ body {
 
 
 .prose code:not(pre code) {
-  @apply py-0.5 px-1.5 bg-white/10 rounded text-primary mr-1 before:hidden after:hidden
+  @apply py-0.5 px-1.5 bg-white/10 rounded font-light text-primary mr-1 before:hidden after:hidden
 }
 
 .prose blockquote {
