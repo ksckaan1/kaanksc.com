@@ -70,7 +70,7 @@
   <!-- svelte-ignore svelte_component_deprecated -->
   <svelte:component this={data.content} />
 </div>
-<div class="flex gap-5 flex-wrap max-w-5xl w-full mx-auto mt-10">
+<div class="flex gap-5 flex-wrap max-w-5xl px-5 w-full mx-auto mt-10">
   {#each authors as author}
     <a
       href={author?.link}
