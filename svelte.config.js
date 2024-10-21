@@ -4,13 +4,14 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import remarkEmoji from "remark-emoji";
 import remarkHint from "remark-hint";
 import relativeImages from "mdsvex-relative-images";
-import { createHighlighter } from "@bitmachina/highlighter";
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
     extensions: ['.svx'],
     highlight: {
-        highlighter: await createHighlighter({ theme: "github-dark" }),
+        highlighter: (code, lang) => {
+            return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang}\`} />`;
+        },
     },
     remarkPlugins: [
         remarkEmoji,
@@ -25,11 +26,9 @@ const mdsvexOptions = {
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
     preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
-
     kit: {
         adapter: adapter()
     },
-
     extensions: [".svelte", ".svx"]
 };
 

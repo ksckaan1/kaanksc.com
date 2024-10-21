@@ -11,7 +11,7 @@ Herşeyden önce, bu işleme nerede ihtiyaç duyduğumuza bakalım.
 
 Örnek bir senaryo görelim:
 
-```go
+```go {1-2}
 type MyStruct struct {
  Text *string
 }

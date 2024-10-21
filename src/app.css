@@ -27,14 +27,6 @@ body {
   @apply py-0.5 px-1.5 bg-white/10 rounded text-primary mr-1 before:hidden after:hidden
 }
 
-.prose pre code {
-  @apply flex flex-col
-}
-
-.prose pre {
-  @apply flex flex-col gridbg p-5 rounded border border-white/20;
-}
-
 .prose blockquote {
   @apply before:hidden after:hidden
 }
