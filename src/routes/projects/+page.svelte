@@ -68,7 +68,7 @@
                 },
                 {
                     title: "APIredator",
-                    description: "API Loading Testing aracı",
+                    description: "API Load Testing aracı",
                     url: "https://github.com/ksckaan1/apiredator",
                     icon: externalIcon,
                 },

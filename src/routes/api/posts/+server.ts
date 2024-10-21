@@ -1,7 +1,7 @@
 import type { Post } from '$lib/models/types'
 import { json } from '@sveltejs/kit'
 
-async function getPosts(): Promise<Post[]> {
+async function getPosts(limit: number, offset: number): Promise<Object> {
     let posts: Post[] = []
 
     const paths = import.meta.glob('/src/posts/*.svx', { eager: true })
@@ -21,10 +21,17 @@ async function getPosts(): Promise<Post[]> {
         new Date(second.date).getTime() - new Date(first.date).getTime()
     )
 
-    return posts
+    return {
+        posts: posts.slice(offset, limit),
+        limit,
+        offset,
+        count: posts.length
+    }
 }
 
-export async function GET() {
-    const posts = await getPosts()
+export async function GET({ url }) {
+    const limit = Number(url.searchParams.get('limit') ?? 100)
+    const offset = Number(url.searchParams.get('offset') ?? 0)
+    const posts = await getPosts(limit, offset)
     return json(posts)
 }

@@ -81,9 +81,9 @@
                     class="flex border hover:bg-black/40 transition-colors border-white/20 items-center rounded-lg bg-black/20"
                 >
                     <div
-                        class="w-28 p-5 text-slate-300 aspect-square flex items-center justify-center gridbg border-r border-white/20"
+                        class="w-28 p-5 text-primary aspect-square flex items-center justify-center gridbg border-r border-white/20"
                     >
-                        <Icon icon={contact.icon} width="60" />
+                        <Icon icon={contact.icon} height="60" />
                     </div>
                     <div class="p-5 text-slate-300">
                         <h2 class="text-kYellow text-3xl font-light">

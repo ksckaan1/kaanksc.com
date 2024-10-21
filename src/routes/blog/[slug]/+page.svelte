@@ -3,6 +3,7 @@
   import type { Data } from "$lib/models/types";
   import { formatDate } from "../../../utils/format";
   import { getAuthorInfo } from "../../../utils/author";
+  import Icon from "@iconify/svelte";
 
   interface Props {
     data: Data;
@@ -37,13 +38,23 @@
 </svelte:head>
 
 <div class="max-w-5xl w-full px-5 mx-auto mt-5">
-  <a
-    use:ripple
-    class="text-primary self-start rounded font-light text-4xl flex gap-x-2 items-center"
-    href="/"
-  >
-    <h1 class="section-title">YAZILAR</h1></a
-  >
+  <div class="flex justify-between items-center text-primary">
+    <a
+      use:ripple
+      class="text-primary self-start rounded font-light text-4xl flex gap-x-2 items-center"
+      href="/blog/"
+    >
+      <h1 class="section-title">YAZILAR</h1></a
+    >
+    <a
+      href="/rss/"
+      class="p-3 rounded-full"
+      target="_blank"
+      use:ripple={{ center: true }}
+    >
+      <Icon icon="line-md:rss" width="32" height="32" />
+    </a>
+  </div>
   <div
     use:ripple
     class="p-5 flex flex-col gap-3 border mt-5 gridbg border-white/20 text-primary rounded"
@@ -57,21 +68,21 @@
     </div>
   </div>
 
-  <div class="prose prose-invert max-w-3xl w-full mx-auto mt-10 text-slate-300">
+  <div class="prose prose-invert max-w-2xl w-full mx-auto mt-10 text-slate-300">
     <!-- svelte-ignore svelte_component_deprecated -->
     <svelte:component this={data.content} />
   </div>
-  <div class="flex gap-5 flex-wrap max-w-3xl w-full mx-auto mt-10">
+  <div class="flex gap-5 flex-wrap max-w-5xl w-full mx-auto mt-10">
     {#each authors as author}
       <a
         href={author?.link}
-        class="flex gap-x-5 text-primary gridbg border w-full border-white/20 p-5 rounded items-center"
+        class="flex gap-x-5 text-primary border w-full border-white/20 p-5 rounded items-center"
         target="_blank"
         use:ripple
       >
         <img
           src={author?.avatar_url}
-          class="w-20 rounded-full"
+          class="w-20 rounded-full border border-white/20"
           alt={author?.full_name}
         />
         <div>
