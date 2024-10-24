@@ -24,7 +24,7 @@
   onMount(async () => {
     if (browser) {
       let out = await codeToHtml(unescape(code), {
-        lang: lang ?? "text",
+        lang: lang,
         theme: "ayu-dark",
         transformers: [transformerNotationDiff(), transformerMetaHighlight()],
       });

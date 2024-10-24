@@ -10,7 +10,7 @@ const mdsvexOptions = {
     extensions: ['.svx'],
     highlight: {
         highlighter: (code, lang) => {
-            return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang}\`} />`;
+            return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang ?? "text"}\`} />`;
         },
     },
     remarkPlugins: [
