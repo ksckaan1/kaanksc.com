@@ -9,8 +9,8 @@ import relativeImages from "mdsvex-relative-images";
 const mdsvexOptions = {
     extensions: ['.svx'],
     highlight: {
-        highlighter: (code, lang) => {
-            return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang ?? "text"}\`} />`;
+        highlighter: (code, lang, args) => {
+            return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang ?? "text"}\`} args={\`${args ?? ""}\`} />`;
         },
     },
     remarkPlugins: [

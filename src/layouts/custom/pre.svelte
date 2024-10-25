@@ -13,12 +13,18 @@
   interface Props {
     code: string;
     lang: string;
+    args?: string;
   }
 
-  let { code, lang = "text" }: Props = $props();
+  let { code, lang = "text", args = "" }: Props = $props();
+
+  let title = $derived.by(() => {
+    let arr = args.matchAll(/title="(.*?)"/gim).toArray();
+    if (arr.length > 0) return arr[0][1];
+    else return "";
+  });
 
   let outHTML = $state("");
-
   let isCopied = $state(false);
 
   onMount(async () => {
@@ -49,6 +55,15 @@
 </script>
 
 <div class="relative flex flex-col rounded border border-white/20">
+  {#if title}
+    <div
+      class="px-5 py-1 bg-white/5 h-10 border-b flex items-center border-white/20"
+    >
+      <span>
+        {title}
+      </span>
+    </div>
+  {/if}
   <div class="absolute top-0 right-0 items-center gap-x-2 flex">
     {#if isCopied}
       <span transition:fade class="text-sm font-light text-primary/70">
