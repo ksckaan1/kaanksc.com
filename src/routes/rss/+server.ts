@@ -1,4 +1,4 @@
-import type {Post} from "$lib/models/types";
+import type { Post } from "$lib/models/types";
 
 export async function GET() {
     let rssText = await getPostRSS()
@@ -14,7 +14,7 @@ export async function GET() {
 const getPostRSS = async () => {
     let resp: Response = await fetch("https://kaanksc.com/api/posts")
 
-    let posts: Post[] = await resp.json()
+    let posts: Post[] = (await resp.json()).posts
 
     return `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -24,16 +24,16 @@ const getPostRSS = async () => {
 <link>https://kaanksc.com</link>
 <description>Backend Developer</description>
 ${posts
-        .map(
-            (post: Post) => `<item>
+            .map(
+                (post: Post) => `<item>
 <guid>https://kaanksc.com/blog/${post.slug}</guid>
 <title>${post.title}</title>
 <link>https://kaanksc.com/blog/${post.slug}</link>
 <description>${post.description}</description>
 <pubDate>${new Date(post.date).toUTCString()}</pubDate>
 </item>`
-        )
-        .join('')}
+            )
+            .join('')}
 </channel>
 </rss>
 `

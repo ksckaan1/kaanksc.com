@@ -1,4 +1,4 @@
-import type {Post} from "$lib/models/types";
+import type { Post } from "$lib/models/types";
 
 export async function GET() {
     let sitemapText = await getSitemap()
@@ -14,7 +14,7 @@ export async function GET() {
 const getSitemap = async () => {
     let resp: Response = await fetch("https://kaanksc.com/api/posts")
 
-    let posts: Post[] = await resp.json()
+    let posts: Post[] = (await resp.json()).posts
 
     return `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
