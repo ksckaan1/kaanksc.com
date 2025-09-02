@@ -61,6 +61,13 @@
                     icon: externalIcon,
                 },
                 {
+                    title: "templ-iconify",
+                    description:
+                        "Iconify ikonlarını Templ olarak indirici araç",
+                    url: "https://github.com/ksckaan1/templ-iconify",
+                    icon: externalIcon,
+                },
+                {
                     title: "IconifyDL",
                     description: "Iconify için icon indirici CLI aracı",
                     url: "https://github.com/ksckaan1/iconifydl",
@@ -137,11 +144,25 @@
                     url: "https://github.com/ksckaan1/stati",
                 },
                 {
-                    title: "kache",
+                    title: "gokachu",
                     description:
                         "Go programlama dili için TTL ve Generic ile in-memory cache paketi",
                     icon: externalIcon,
-                    url: "https://github.com/ksckaan1/kache",
+                    url: "https://github.com/ksckaan1/gokachu",
+                },
+                {
+                    title: "keyfile",
+                    description:
+                        "Go programlama dili için keyfile parser paketi",
+                    icon: externalIcon,
+                    url: "https://github.com/ksckaan1/keyfile",
+                },
+                {
+                    title: "m2s",
+                    description:
+                        "Go programlama dili için Multipart Form Data'yı struct'a parse eden paket",
+                    icon: externalIcon,
+                    url: "https://github.com/ksckaan1/m2s",
                 },
             ],
         },

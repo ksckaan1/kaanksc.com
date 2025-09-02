@@ -16,6 +16,12 @@
             icon: "line-md:twitter-x",
         },
         {
+            title: "Instagram",
+            subtitle: "ksckaan1",
+            link: "https://instagram.com/ksckaan1",
+            icon: "line-md:instagram",
+        },
+        {
             title: "Reddit",
             subtitle: "ksckaan1",
             link: "https://www.reddit.com/user/ksckaan1",
@@ -42,34 +48,9 @@
     ];
 </script>
 
-<svelte:head>
-    <title>İletişim | Kaan Kuscu</title>
-    <meta
-        name="description"
-        content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz."
-    />
-    <meta
-        name="keywords"
-        content="kaan, kuscu, iletişim, go, programlama, linux, blog, yazılım"
-    />
-    <meta property="og:title" content="İletişim | Kaan Kuscu" />
-    <meta property="og:type" content="website" />
-    <meta
-        property="og:description"
-        content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz."
-    />
-    <meta property="og:image" content="https://kaanksc.com/og/main.webp" />
-    <meta name="twitter:title" content="İletişim | Kaan Kuscu" />
-    <meta
-        name="twitter:description"
-        content="Selam! Ben Kaan Kuscu. Backend Developer'ım. Benimle bu adresler üzerinden bağlantı kurabilirsiniz."
-    />
-    <meta property="twitter:image" content="https://kaanksc.com/og/main.webp" />
-</svelte:head>
-
-<div class="w-full max-w-5xl mx-auto p-5 flex flex-col gap-5">
-    <h1 class="section-title">İLETİŞİM</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-5">
+    <h1 class="section-title !text-3xl">İLETİŞİM</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {#each contactList as contact, i}
             <a
                 use:ripple
