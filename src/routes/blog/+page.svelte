@@ -6,19 +6,17 @@
     import PostCard from "$lib/components/PostCard.svelte";
     import SkeletonPostCard from "$lib/components/SkeletonPostCard.svelte";
     let posts: Post[] = $state([]);
-    let count = $state(0);
     let isLoaded = $state(false);
     let isLoadingAnimationEnded = $state(false);
 
     onMount(async () => {
         setTimeout(() => {
             isLoadingAnimationEnded = true;
-        }, 500);
+        }, 1000);
 
         const response = await fetch("/api/posts");
         const body = await response.json();
         posts = body.posts;
-        count = body.count;
         isLoaded = true;
     });
 </script>
@@ -60,15 +58,23 @@
             <Icon icon="line-md:rss" width="32" height="32" />
         </a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {#if !isLoaded || !isLoadingAnimationEnded}
-            {#each Array(10) as a}
+
+    {#if !isLoaded || !isLoadingAnimationEnded}
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 gap-4 relative h-[calc(100dvh-20rem)] overflow-y-hidden"
+        >
+            {#each Array(20) as a}
                 <SkeletonPostCard />
             {/each}
-        {:else}
+            <div
+                class="bg-gradient-to-t from-black to-transparent absolute top-0 left-0 w-full h-full"
+            ></div>
+        </div>
+    {:else}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {#each posts as post}
                 <PostCard {post} />
             {/each}
-        {/if}
-    </div>
+        </div>
+    {/if}
 </div>

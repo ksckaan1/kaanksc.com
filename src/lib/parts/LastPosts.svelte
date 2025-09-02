@@ -20,7 +20,7 @@
     onMount(async () => {
         setTimeout(() => {
             isLoadingAnimationEnded = true;
-        }, 500);
+        }, 1000);
         const response = await fetch(
             `/api/posts?limit=${limit}&offset=${offset}`,
         );
