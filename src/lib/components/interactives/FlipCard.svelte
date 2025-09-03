@@ -2,10 +2,14 @@
     let isFlipped: boolean = false;
 
     const toggle = () => {
-        isFlipped = !isFlipped
-    }
+        isFlipped = !isFlipped;
+    };
 </script>
-<div class="w-full rounded-lg border border-white/20 flex flex-col gap-y-5 justify-center items-center py-10 bg-black/20">
+
+<div
+    class="w-full rounded-lg border border-white/20 flex flex-col gap-y-5 justify-center items-center py-10 bg-black/20"
+>
+    <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (Just because i)  -->
 
     <div class="wordCard" class:flipped={isFlipped} on:click={toggle}>
         <div class="cardFace frontFace">
@@ -18,6 +22,7 @@
 
     <div>Tıkla ve çevir!</div>
 </div>
+
 <style>
     .wordCard {
         width: 200px;
@@ -38,7 +43,7 @@
         border-radius: 10px;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-        transition: transform .5s linear;
+        transition: transform 0.5s linear;
         transform-style: preserve-3d;
     }
 
