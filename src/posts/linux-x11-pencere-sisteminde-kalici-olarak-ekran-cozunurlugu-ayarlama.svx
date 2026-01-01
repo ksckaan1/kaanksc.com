@@ -160,7 +160,3 @@ xrandr --addmode HDMI-1 "1600x900_60.00"
 Ekran çözünürlüğü komutu eklemiyoruz çünkü sistem zaten belirli ekranın çözünürlük verilerini saklıyor.
 
 Dosyayı kaydettikten sonra sistemi yeniden başlatabilirsiniz.
-
-
-
-
