@@ -1,0 +1,57 @@
+---
+title: Go Green Tea Çöp Toplayıcısı
+description: Bu yazıda Go'dali Green Tea Çöp Toplayıcısı'nın nasıl çalıştığını ve neden gerekli olduğunu anlattım.
+date: '2026-01-01'
+tags: ['go', 'gc', 'garbage', 'collector', 'çöp', 'toplayıcı', 'green', 'tea']
+authors: ['ksckaan1']
+published: false
+---
+
+Go'nun yeni çöp toplayıcısı olan **Green Tea GC**, 1.25 versiyonu ile kullanıma sunuldu. Google bu yeni çöp toplayıcıyı halihazırda kendi bünyesinde kullandığını ve güvenilir bir şekilde uygulamalarımızda kullanabileceğimizi duyurdu. Şuanda `GOEXPERIMENT=greenteagc` ortam değişkeni ile kullanabildiğimiz bu özellik, Go'nun 1.26 sürümünden itibaren varsayılan olarak kullanılacak. 1.26 ve sonrası sürümlerde eski çöp toplayıcıyı kullanmak isteyenler derleme esnasında `GOEXPERIMENT=nogreenteagc` ortam değişkeni ile eski versiyonunu kullanmaya devam edebilecekler.
+
+Green Tea GC'nin, yapılan benchmark sonuçlarında %10-%40 oranında işlemcinin yükünü azalttığı görülmüştür. Bu performans artışı, özellikle büyük ölçekli uygulamalar için önemli bir avantajdır. Büyük ölçekli uygulamalarda çöp toplama işleminin süre olarak uzaması genel uygulama performansını etkileyen bir durumdur. Green Tea GC daha kısa süre içerisinde çöp toplama işlemini tamamlar ve bu da uygulamanın daha performanslı çalışmasına yardımcı olur.
+
+## Çöp Toplama İşlemi
+
+Bellek _(RAM)_ mantıksal olarak iki bölüme ayrılır. Çöp toplama işleminin amacı bellekteki **Heap** bölümünde kullanılmayan nesnelerin tespit edilmesi ve serbest bırakılmasıdır. **Stack** bölümünde saklanan nesneler zaten işleri bitince otomatik olarak serbest bırakılır (temizlenir).
+
+Go'da çöp toplama yaparken **Concurrent Tri-color Mark and Sweep** _(Eşzamanlı Üç Renkli İşaretleme ve Temizleme)_ algoritmasını temel alınır. Bu algoritma hem eski hem de yeni Green Tea GC'nin temelini oluşturur. Bu süreç iki aşamadan oluştur.
+
+// Tri-color mark resim
+
+### 1. Mark (İşaretleme) Aşaması
+
+Bu aşamada çöp toplayıcı hangi nesnelerin hala kullanımda olduğunu tespit etmeye çalışır. İşaretleme aşamasına başlarken algoritma tüm nesneleri önce **beyaz** olarak kabul eder. Daha sonra nesnelerde gezinir. Gezinmeye kök nesnelerden başlar.
+
+Kök nesneler şunlardır:
+
+- **Global Değişkenler:** Programın yaşam döngüsü boyunca erişilebilen değişkenlerdir.
+- **Yerel Değişkenler:** Fonksiyonların çalışma sürecinde sadece o an kullanılacak olan ve fonksiyonun dışına çıkmayan, Stack üzerinde saklanmaya karar verilmiş değişkenlerdir.
+- **Sabitler:** Tanımlanmış olan sabit değerlerdir.
+
+Kök nesneler üzerinden Heap'deki diğer nesnelere ulaşır (Graph Yapısı). Gezdiği nesneleri gri olarak işaretler ve gri olarak işaretlenen nesneler canlıdır yani hala kullanıldığı anlamına gelir. Bu nesneler incelenmek üzere **iş kuyruğuna** _(work list)_ eklenir.
+
+İş kuyruğundan nesneleri alan **işlemciler** _(P)_, nesnelere bakar. Nesnelerin içinlerindeki işaretçiler ile bellekten _(RAM)_ değerlerini getirir. Bu değerlerin içinde başka işaretçiler varsa onların nesnelerini de gri olarak işaretleyip yeniden iş kuyruğuna ekler. Tarama sonucunda kullanılan nesneleri **siyah** olarak işaretler. Mark (işaretleme) aşaması sonunda bazı nesnelere ulaşılamaz (haliyle gezilmez) ve bu nesneler beyaz kalmaya devam eder.
+
+### 2. Sweep (Temizleme) Aşaması
+
+İşaretleme bittiğinde, bellekteki tüm nesneler ya siyah (erişilebilir, canlı) yada beyaz (erişilemez, kullanılmayan) durumdadır. Tarama sonucu beyaz nesnelerin tümü çöp olarak kabul edilir.
+
+Bu beyaz nesneler gezilerek tuttukları alanlar **free** _(serbest)_ olarak işaretlenir ve böylece **allocator** _(bellek ayırıcı)_ bu alanların yeniden kullanılmasına izin verir.
+
+Eski çöp toplayıcıda maliyetin yaklaşık %90'nı Mark _(işaretleme)_ aşamasında, %10'u ise Sweep _(Temizleme)_ aşamasında harcanmaktadır. %90'lık işaretleme kısmı, performans kaybına en çok sebep olunan yerdir. Gezinme esnasında, Graph yapısı ile bir nesneden bağlantılı olduğu nesneye geçilirken bellekte çok farklı alanlar arasında zıplanılarak değerler getirilir. Her seferinde birbirinden farklı nesnelere erişilmek istediğinde, bir sonraki nesne çok farklı bir yerde olabileceğinden, çok yüksek bir ihtimalle işlemci önbelleğinde _(cache)_ bulunmaz.
+
+Günümüzde işlemciler _(CPU)_ belleklerden _(RAM)_ çok daha hızlıdır. İşlemci bir işi yapmak için bellekten değerlerin getirilmesini bekler. Bu zaman **Stalling** _(bekleme)_ olarak adlandırılır. **Stalling**, işlemciyi beklemeye zorlayan işlemlerden kaynaklanır. Bu nedenle, bellek erişimlerini optimize etmek önemlidir. İşlemcinin hızının, bellek hızında çok daha fazla olması sebebiyle bir darboğaz oluşur. Buna **Bellek Duvarı** _(Memory Wall)_ problemi denir.
+
+Bilgisayar teknolojisinin son 40 yıllık gelişimine bakıldığında iki farklı hız grafiği görülür:
+
+- **İşlemciler (CPU):** Hızları her 1.5 - 2 yılda bir ikiye katlanarak (Moore Yasası) artmıştır.
+- **Bellekler (RAM):** Hızları çok daha yavaş bir ivmeyle (yıllık ortalama %7-10) artmıştır.
+
+Bu iki eğri arasındaki makas zamanla o kadar açılmıştır ki, işlemci bir komutu nanosaniyeler içinde işleyebilirken, bellekten verinin gelmesi yüzlerce döngü (cycle) sürebilir. Bu bekleme süresine Gecikme (Latency) denir.
+
+Bu problem karşısında verimliliği arttırabilmek için, Green Tea GC'de Mark _(İşaretleme)_ aşamasında iyileştirmeler yapılmıştır. Nesne odaklı çalışmak yerine, sayfa odaklı çalışılır. İşlemciler _(P)_, iş listesindeki verileri tekil nesneler halinde işlemek yerine toplu (sayfa) olarak işler.
+
+Sayfa odaklı yaklaşımda ardışık değerler üzerinde çalışıldığından, bellek erişimleri optimize edebilirdir. Çünkü ardışık değerler işlemci önbelleğinde halihazırda bulunma ihtimali daha fazladır. İşlemci önbelleğine (CPU Cache) erişim, bellek (RAM) erişimine göre çok daha hızlı olduğundan, değerin burada olması performansı iyileştirir.
+
+!> İşlemcide kullanılacak olan bir değer, bellekten alındıktan sonra yeniden kullanılma ihtimaline karşı işlemci önbelleğine yedeklenir. Buradan erişim daha hızlı olduğu için performansı yükselten bir etkendir.
