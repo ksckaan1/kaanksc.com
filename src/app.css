@@ -2,37 +2,36 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 body {
-  @apply font-poppins bg-black text-slate-300 scrollbar scrollbar-thumb-primary scrollbar-track-black;
+	@apply font-poppins bg-black text-slate-300 scrollbar scrollbar-thumb-primary scrollbar-track-black;
 }
 
 .gridbg {
-  background-image: linear-gradient(to right, #ececec18 1px, transparent 1px),
-    linear-gradient(to bottom, #ececec18 1px, transparent 1px);
-  background-size: 16px 16px;
+	background-image:
+		linear-gradient(to right, #ececec18 1px, transparent 1px),
+		linear-gradient(to bottom, #ececec18 1px, transparent 1px);
+	background-size: 16px 16px;
 }
 
 .section-title {
-  @apply text-black text-4xl sm:text-6xl font-black tracking-widest;
-  -webkit-text-stroke: 1px rgb(245 179 47);
+	@apply text-black text-4xl sm:text-6xl font-black tracking-widest;
+	-webkit-text-stroke: 1px rgb(245 179 47);
 }
-
 
 /* POST STYLES */
 
-
 .prose code:not(pre code) {
-  @apply py-0.5 px-1.5 bg-white/10 rounded font-light text-primary mr-1 before:hidden after:hidden
+	@apply py-0.5 px-1.5 bg-white/10 rounded font-light text-primary mr-1 before:hidden after:hidden;
 }
 
 .prose blockquote {
-  @apply before:hidden after:hidden
+	@apply before:hidden after:hidden;
 }
 
 .prose a {
-  @apply text-primary
+	@apply text-primary;
 }
 
 .prose h1,
@@ -41,26 +40,31 @@ body {
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply text-slate-200 font-light
+	@apply text-slate-200 font-light;
 }
 
-.prose>p>img {
-  @apply rounded border border-white/20
+.prose > p > img {
+	@apply rounded border border-white/20;
 }
 
 .hint {
-  @apply z-0 rounded border border-white/20 p-3.5 pl-14 bg-no-repeat bg-[length:1.5rem];
-  background-position: 1rem 1rem;
+	@apply z-0 rounded border border-white/20 p-3.5 pl-14 bg-no-repeat bg-[length:1.5rem];
+	background-position: 1rem 1rem;
 }
 
 .hint.warn {
-  @apply bg-orange-600/50 text-white bg-[url('/img/warning-hint.png')]
+	@apply bg-orange-600/50 text-white bg-[url('/img/warning-hint.png')];
 }
 
 .hint.error {
-  @apply bg-red-600/50 text-white bg-[url('/img/danger-hint.png')]
+	@apply bg-red-600/50 text-white bg-[url('/img/danger-hint.png')];
 }
 
 .hint.tip {
-  @apply bg-sky-600/50 text-white bg-[url('/img/info-hint.png')]
+	@apply bg-sky-600/50 text-white bg-[url('/img/info-hint.png')];
+}
+
+/* mermaid doc */
+div:has(> svg[role="graphics-document document"]) {
+	@apply flex justify-center items-center bg-[#1B2026] rounded border border-white/20;
 }

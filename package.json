@@ -31,9 +31,12 @@
 		"vite": "^5.0.3"
 	},
 	"dependencies": {
+		"@friendofsvelte/mermaid": "^0.0.4",
 		"mdsvex-relative-images": "^1.0.3",
+		"mermaid.cli": "^0.5.1",
 		"remark-emoji": "^5.0.1",
 		"remark-hint": "^1.0.10",
+		"remark-mermaid": "^0.2.0",
 		"svelte-ripple-action": "^1.0.6",
 		"tailwind-scrollbar": "^3.1.0"
 	}

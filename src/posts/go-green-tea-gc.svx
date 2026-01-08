@@ -7,9 +7,33 @@ authors: ['ksckaan1']
 published: false
 ---
 
+<script>
+  import { Mermaid } from '@friendofsvelte/mermaid';
+  
+  const config = {
+    theme: 'dark',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true
+    }
+  };
+  
+  const gcCPUTimePieChart = `
+  pie
+      "Temizleme (Sweeping)" : 2
+      "İşaretleme (Marking)" : 11.7
+      "Bekleme (Stalling)" : 6.3
+      "Diğer İşlemler" : 80
+      `;
+</script>
+
+// todo: write barrier
+
 Go'nun yeni çöp toplayıcısı olan **Green Tea GC**, 1.25 versiyonu ile kullanıma sunuldu. Google bu yeni çöp toplayıcıyı halihazırda kendi bünyesinde kullandığını ve güvenilir bir şekilde uygulamalarımızda kullanabileceğimizi duyurdu. Şuanda `GOEXPERIMENT=greenteagc` ortam değişkeni ile kullanabildiğimiz bu özellik, Go'nun 1.26 sürümünden itibaren varsayılan olarak kullanılacak. 1.26 ve sonrası sürümlerde eski çöp toplayıcıyı kullanmak isteyenler derleme esnasında `GOEXPERIMENT=nogreenteagc` ortam değişkeni ile eski versiyonunu kullanmaya devam edebilecekler.
 
 Green Tea GC'nin, yapılan benchmark sonuçlarında %10-%40 oranında işlemcinin yükünü azalttığı görülmüştür. Bu performans artışı, özellikle büyük ölçekli uygulamalar için önemli bir avantajdır. Büyük ölçekli uygulamalarda çöp toplama işleminin süre olarak uzaması genel uygulama performansını etkileyen bir durumdur. Green Tea GC daha kısa süre içerisinde çöp toplama işlemini tamamlar ve bu da uygulamanın daha performanslı çalışmasına yardımcı olur.
+
+![gophergc](./assets/img/gophergc.png)
 
 ## Çöp Toplama İşlemi
 
@@ -17,7 +41,7 @@ Bellek _(RAM)_ mantıksal olarak iki bölüme ayrılır. Çöp toplama işlemini
 
 Go'da çöp toplama yaparken **Concurrent Tri-color Mark and Sweep** _(Eşzamanlı Üç Renkli İşaretleme ve Temizleme)_ algoritmasını temel alınır. Bu algoritma hem eski hem de yeni Green Tea GC'nin temelini oluşturur. Bu süreç iki aşamadan oluştur.
 
-// todo: Tri-color mark resim
+![gophergc](./assets/img/tri-color-mark-and-sweep.png)
 
 ### 1. Mark (İşaretleme) Aşaması
 
@@ -41,6 +65,8 @@ Bu beyaz nesneler gezilerek tuttukları alanlar **free** _(serbest)_ olarak işa
 
 Eski çöp toplayıcıda maliyetin yaklaşık %90'nı Mark _(işaretleme)_ aşamasında, %10'u ise Sweep _(Temizleme)_ aşamasında harcanmaktadır. %90'lık işaretleme kısmı, performans kaybına en çok sebep olunan yerdir. Gezinme esnasında, Graph yapısı ile bir nesneden bağlantılı olduğu nesneye geçilirken bellekte çok farklı alanlar arasında zıplanılarak değerler getirilir. Her seferinde birbirinden farklı nesnelere erişilmek istediğinde, bir sonraki nesne çok farklı bir yerde olabileceğinden, çok yüksek bir ihtimalle işlemci önbelleğinde _(cache)_ bulunmaz.
 
+![bellek-duvari](./assets/img/bellek-duvari.png)
+
 Günümüzde işlemciler _(CPU)_ belleklerden _(RAM)_ çok daha hızlıdır. İşlemci bir işi yapmak için bellekten değerlerin getirilmesini bekler. Bu zaman **Stalling** _(bekleme)_ olarak adlandırılır. **Stalling**, işlemciyi beklemeye zorlayan işlemlerden kaynaklanır. Bu nedenle, bellek erişimlerini optimize etmek önemlidir. İşlemcinin hızının, bellek hızında çok daha fazla olması sebebiyle bir darboğaz oluşur. Buna **Bellek Duvarı** _(Memory Wall)_ problemi denir.
 
 Bilgisayar teknolojisinin son 40 yıllık gelişimine bakıldığında iki farklı hız grafiği görülür:
@@ -52,7 +78,7 @@ Bu iki eğri arasındaki makas zamanla o kadar açılmıştır ki, işlemci bir 
 
 İşaretleme süresinin yaklaşık %35'i, CPU'nun RAM'den veri gelmesinin beklerken boşa harcadığı döngülerden _(cycles)_ oluşur.
 
-// todo: Stalling'i gösterek pasta grafiği
+<Mermaid string={gcCPUTimePieChart} config={config} />
 
 Bu problem karşısında verimliliği arttırabilmek için, Green Tea GC'de Mark _(İşaretleme)_ aşamasında iyileştirmeler yapılmıştır. Nesne odaklı çalışmak yerine, sayfa odaklı çalışılır. İşlemciler _(Mantıksal)_, iş listesindeki verileri tekil nesneler halinde işlemek yerine toplu (sayfa) olarak işler.
 
@@ -64,27 +90,27 @@ Eski çöp toplayıcı ve yeni Green Tea GC arasındaki farkları daha kolay anl
 
 1. **İş Birimi: Nesne ve Sayfa**
 
-- **Eski GC:** İşaretleme aşamasında tamamen nesne odaklı çalışır. İş listesinde _(work list)_ tekil nesneler takip edilir ve her seferinde nesne kuyruktan alınarak taranır.
-- **Yeni GC (Green Tea):** "Nesnelerle değil, sayfalarla çalış" ilkesini benimser. İş listesinde nerneler yerine 8 KiB'lık bellek blokları olan sayfalar takip edilir.
+	- **Eski GC:** İşaretleme aşamasında tamamen nesne odaklı çalışır. İş listesinde _(work list)_ tekil nesneler takip edilir ve her seferinde nesne kuyruktan alınarak taranır.
+	- **Yeni GC (Green Tea):** "Nesnelerle değil, sayfalarla çalış" ilkesini benimser. İş listesinde nerneler yerine 8 KiB'lık bellek blokları olan sayfalar takip edilir.
 
 2. **Bellek Erişimi Deseni ve Önbellek Verimliliği**
 
-- **Eski GC:** İşaretçileri rastgele takip ederek bellekte bir nesneden diğerine zıplar. Bu **"rastgele zıplama"** deseni, zayıf bir mekansal yerelliğe _(spatial locality)_ neden olur ve CPU'nun RAM'den veri gelmesini beklerken döngülerinin yaklaşık %35'ini boşa harcamasına _(stall)_ yol açar.
-- **Yeni GC (Green Tea):** Bir sayfadaki nesneleri bellek sırasına göre _(in memory order)_ toplu halde tarar. Bir sayfa önbelleğe _(cache)_ yüklendiğinde, içindeki tüm nesneler de beraberinde gelir. Bu sayede CPU bekleme süreleri %50'ye kadar azalır.
+	- **Eski GC:** İşaretçileri rastgele takip ederek bellekte bir nesneden diğerine zıplar. Bu **"rastgele zıplama"** deseni, zayıf bir mekansal yerelliğe _(spatial locality)_ neden olur ve CPU'nun RAM'den veri gelmesini beklerken döngülerinin yaklaşık %35'ini boşa harcamasına _(stall)_ yol açar.
+	- **Yeni GC (Green Tea):** Bir sayfadaki nesneleri bellek sırasına göre _(in memory order)_ toplu halde tarar. Bir sayfa önbelleğe _(cache)_ yüklendiğinde, içindeki tüm nesneler de beraberinde gelir. Bu sayede CPU bekleme süreleri %50'ye kadar azalır.
 
 3. **Meta Veri ve Takip Mekanizması**
 
-- **Eski GC:** Her nesne için sadece tek bir bit _("seen")_ kullanarak o nesnenin ziyaret edilip edilmediğini takip eder. Nesneler LIFO _(son giren ilk çıkar)_ düzeninde, yani bir yığın _(stack)_ mantığıyla taranır. 
-- **Yeni GC (Green Tea):** Her nesne için iki bit _("seen" ve "scanned")_ kullanır. İş listesi için FIFO _(ilk giren ilk çıkar)_ düzeninde bir kuyruk yapısı kullanır. Bu **tembel** yaklaşım, bir sayfa kuyrukta beklerken o sayfadaki diğer nesnelerin de işaretlenmesini _(birikmesini)_ sağlar, böylece tek seferde daha fazla nesne taranabilir.
+	- **Eski GC:** Her nesne için sadece tek bir bit _("seen")_ kullanarak o nesnenin ziyaret edilip edilmediğini takip eder. Nesneler LIFO _(son giren ilk çıkar)_ düzeninde, yani bir yığın _(stack)_ mantığıyla taranır.
+	- **Yeni GC (Green Tea):** Her nesne için iki bit _("seen" ve "scanned")_ kullanır. İş listesi için FIFO _(ilk giren ilk çıkar)_ düzeninde bir kuyruk yapısı kullanır. Bu **tembel** yaklaşım, bir sayfa kuyrukta beklerken o sayfadaki diğer nesnelerin de işaretlenmesini _(birikmesini)_ sağlar, böylece tek seferde daha fazla nesne taranabilir.
 
 4. **Donanım ve Vektör Kullanımı**
 
-- **Eski GC:** İşlem yükü düzensiz ve küçük parçalı olduğu için modern işlemcilerin vektör talimatlarını _(SIMD)_ kullanamaz.
-- **Yeni GC (Green Tea):** Sayfa bazlı düzenli yapısı sayesinde **AVX-512** gibi vektör donanımlarını kullanabilir. Bu donanım desteğiyle, bir sayfanın tüm meta verileri geniş yazmaçlara sığdırılarak sadece birkaç döngüde taranabilir.
+	- **Eski GC:** İşlem yükü düzensiz ve küçük parçalı olduğu için modern işlemcilerin vektör talimatlarını _(SIMD)_ kullanamaz.
+	- **Yeni GC (Green Tea):** Sayfa bazlı düzenli yapısı sayesinde **AVX-512** gibi vektör donanımlarını kullanabilir. Bu donanım desteğiyle, bir sayfanın tüm meta verileri geniş yazmaçlara sığdırılarak sadece birkaç döngüde taranabilir.
 
 5. **Uyarlanabilirlik (Adaptive Strategy)**
 
-- **Eski GC:** Her nesneyi aynı şekilde işler; nesnenin bellekteki konumu süreci değiştirmez.
-- **Yeni GC (Green Tea):** Eğer bir sayfada taranacak sadece tek bir nesne varsa, tüm sayfayı işlemenin verimsiz olacağını anlayarak **temsilci nesne** _(representative object)_ optimizasyonuna geçer ve sadece o nesneyi tarar.
+	- **Eski GC:** Her nesneyi aynı şekilde işler; nesnenin bellekteki konumu süreci değiştirmez.
+	- **Yeni GC (Green Tea):** Eğer bir sayfada taranacak sadece tek bir nesne varsa, tüm sayfayı işlemenin verimsiz olacağını anlayarak **temsilci nesne** _(representative object)_ optimizasyonuna geçer ve sadece o nesneyi tarar.
 
 !> **Özet bir analoji** <br/> Eski GC, kütüphanede her kitap ismi duyduğunda yerinden kalkıp ilgili rafa giden, sadece o kitabı alıp geri dönen ve bir sonraki isim için tekrar rafa koşan bir araştırmacı gibidir. Green Tea GC ise, bir kitap ismi duyduğunda o kitabın bulunduğu tüm rafı _(sayfayı)_ masasına getiren ve o raftaki tüm ilgili kitapları tek seferde inceleyen araştırmacıdır; bu sayede defalarca raflar arasında gidip gelerek vakit kaybetmez
