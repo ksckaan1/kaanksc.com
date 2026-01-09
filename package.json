@@ -32,6 +32,7 @@
 	"dependencies": {
 		"@friendofsvelte/mermaid": "^0.0.4",
 		"@sveltejs/adapter-cloudflare": "^7.2.4",
+		"marked": "^17.0.1",
 		"mdsvex-relative-images": "^1.0.3",
 		"remark-emoji": "^5.0.1",
 		"remark-hint": "^1.0.10",

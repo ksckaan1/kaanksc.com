@@ -14,6 +14,9 @@ importers:
       '@sveltejs/adapter-cloudflare':
         specifier: ^7.2.4
         version: 7.2.4(@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@4.0.4(svelte@5.46.1)(vite@5.4.21(@types/node@22.19.3)))(svelte@5.46.1)(typescript@5.9.3)(vite@5.4.21(@types/node@22.19.3)))(wrangler@4.58.0(@cloudflare/workers-types@4.20260109.0))
+      marked:
+        specifier: ^17.0.1
+        version: 17.0.1
       mdsvex-relative-images:
         specifier: ^1.0.3
         version: 1.0.3
@@ -1400,6 +1403,11 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
+  marked@17.0.1:
+    resolution: {integrity: sha512-boeBdiS0ghpWcSwoNm/jJBwdpFaMnZWRzjA6SkUMYb40SVaN1x7mmfGKp0jvexGcx+7y2La5zRZsYFZI6Qpypg==}
+    engines: {node: '>= 20'}
+    hasBin: true
 
   mdast-util-find-and-replace@3.0.2:
     resolution: {integrity: sha512-Tmd1Vg/m3Xz43afeNxDIhWRtFZgM2VLyaf4vSTYwudTyeuTneoL3qtWMA5jeLyz/O1vDJmmV4QuScFCA2tBPwg==}
@@ -3116,6 +3124,8 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  marked@17.0.1: {}
 
   mdast-util-find-and-replace@3.0.2:
     dependencies:
