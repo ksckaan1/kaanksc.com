@@ -9,7 +9,8 @@ published: false
 
 <script>
   import { Mermaid } from '@friendofsvelte/mermaid';
-  
+  import Gallery from "$lib/components/interactives/Gallery.svelte"
+
   const config = {
     theme: 'dark',
     flowchart: {
@@ -17,7 +18,7 @@ published: false
       htmlLabels: true
     }
   };
-  
+
   const gcCPUTimePieChart = `
   pie
       "Temizleme (Sweeping)" : 2
@@ -25,9 +26,235 @@ published: false
       "Bekleme (Stalling)" : 6.3
       "Diğer İşlemler" : 80
       `;
+  
+	const graphFloodElems = [
+		{
+			img: "/img/graph-flood/gf01.png",
+			caption:
+				"Burada bazı global değişkenlerin ve Go Heap'in bir diyagramı var. Parça parça inceleyelim.",
+		},
+		{
+			img: "/img/graph-flood/gf02.png",
+			caption:
+				"Sol tarafta kök nesnelerimiz var. Bunlar `x` ve `y` global değişkenleridir. Graph gezintimizin başlangıç noktası olacaklardır. Sol alt köşedeki kullanışlı açıklamaya göre mavi renkle işaretlendiklerinden, şu anda iş listemizde yer almaktadırlar.",
+		},
+		{
+			img: "/img/graph-flood/gf03.png",
+			caption:
+				"Sağ tarafta, heap'imiz var. Şu anda, heap'imizdeki her şey gri renkte çünkü henüz hiçbirini ziyaret etmedik.",
+		},
+		{
+			img: "/img/graph-flood/gf04.png",
+			caption:
+				"Bu dikdörtgenlerin her biri bir nesneyi temsil eder. Her nesne, türüyle etiketlenmiştir. Bu nesne, özellikle sol üstte türü tanımlanan `T` türünde bir nesnedir. Bir dizi alt nesneye işaretçi ve bazı değerler içerir. Bunun bir tür özyinelemeli ağaç veri yapısı olduğunu varsayabiliriz.",
+		},
+		{
+			img: "/img/graph-flood/gf05.png",
+			caption:
+				"`T` türündeki nesnelerin yanı sıra, `*T` içeren dizi nesnelerimiz de olduğunu fark edeceksiniz. Bunlar, `T` türündeki nesnelerin `children` alanı tarafından işaret edilmektedir.",
+		},
+		{
+			img: "/img/graph-flood/gf06.png",
+			caption:
+				"Dikdörtgenin içindeki her kare 8 baytlık belleği temsil eder. Noktalı kare bir işaretçidir _(pointer)_. Ok işareti varsa, başka bir nesneyi gösteren `nil` olmayan bir pointer'dır.",
+		},
+		{
+			img: "/img/graph-flood/gf07.png",
+			caption:
+				"Ve karşılık gelen ok yoksa, o zaman bu bir `nil pointer`'dır.",
+		},
+		{
+			img: "/img/graph-flood/gf08.png",
+			caption:
+				"Sonra, bu noktalı dikdörtgenler boş alanı temsil ediyor, ben buna `serbest alan` diyeceğim. Oraya bir nesne koyabiliriz, ama şu anda orada bir nesne yok.",
+		},
+		{
+			img: "/img/graph-flood/gf09.png",
+			caption:
+				"Nesnelerin, etiketli, noktalı yuvarlak dikdörtgenlerle gruplandırıldığını da fark edeceksiniz. Bunların her biri, sabit boyutlu, hizalanmış belleğin bitişik bir bloğu olan bir sayfayı temsil eder. Go'da sayfalar 8 KiB'dir _(donanım sanal bellek sayfa boyutundan bağımsız olarak)_. Bu sayfalar **A**, **B**, **C** ve **D** olarak etiketlenmiştir ve ben de bu şekilde bahsedeceğim.",
+		},
+		{
+			img: "/img/graph-flood/gf09.png",
+			caption:
+				"Bu şemada, her nesne bir sayfanın parçası olarak ayrılmıştır. Gerçek uygulamada olduğu gibi, buradaki her sayfa yalnızca belirli boyuttaki nesneleri içerir. Go heap'i işte bu şekilde düzenlenmiştir.",
+		},
+		{
+			img: "/img/graph-flood/gf10.png",
+			caption:
+				"Sayfalar ayrıca nesne başına meta verileri düzenleme yöntemimizdir. Burada, sayfa **A**'daki yedi nesne alanından her birine karşılık gelen yedi kutu görebilirsiniz.",
+		},
+		{
+			img: "/img/graph-flood/gf10.png",
+			caption:
+				"Her kutu bir bitlik bilgiyi temsil eder: nesneyi daha önce görmüş olup olmadığımızı. Aslında gerçek çalışma zamanı, bir nesnenin ziyaret edilip edilmediğini bu şekilde yönetir ve bu, daha sonra önemli bir ayrıntı olacaktır.",
+		},
+		{
+			img: "/img/graph-flood/gf01.png",
+			caption:
+				"Çok fazla ayrıntı vardı, okuduğunuz için teşekkürler. Bunların hepsi daha sonra devreye girecek. Şimdilik, grafik selimizin bu resme nasıl uygulandığını görelim.",
+		},
+		{
+			img: "/img/graph-flood/gf11.png",
+			caption:
+				"İş listesinden bir kökü alarak başlıyoruz. Artık aktif olduğunu belirtmek için kırmızı renkle işaretliyoruz.",
+		},
+		{
+			img: "/img/graph-flood/gf12.png",
+			caption:
+				"Bu kökün işaretçisini takip ederek, `T` türünde bir nesne buluruz ve bunu iş listemize ekleriz. Başlığı _(mavi T)_, nesneyi iş listemizde olduğunu belirtmek için mavi renkle çizeriz. Ayrıca, meta verilerimizde bu nesneye karşılık gelen görüldü bitini ayarladığımızı da unutmayın.",
+		},
+		{
+			img: "/img/graph-flood/gf13.png",
+			caption:
+				"Aynı şey bir sonraki kök için de geçerlidir.",
+		},
+		{
+			img: "/img/graph-flood/gf14.png",
+			caption:
+				"Tüm kökleri hallettiğimize göre, iş listemizde iki nesne kaldı. İş listesinden bir nesneyi kaldıralım.",
+		},
+		{
+			img: "/img/graph-flood/gf15.png",
+			caption:
+				"Şimdi yapacağımız şey, daha fazla nesne bulmak için nesnelerin işaretçilerini taramak. Bu arada, bir nesnenin işaretçilerini taramaya `tarama` diyoruz.",
+		},
+		{
+			img: "/img/graph-flood/gf16.png",
+			caption:
+				"Bu geçerli dizi nesnesini buluyoruz...",
+		},
+		{
+			img: "/img/graph-flood/gf17.png",
+			caption:
+				"… ve bunu iş listemize ekledik.",
+		},
+		{
+			img: "/img/graph-flood/gf18.png",
+			caption:
+				"Buradan itibaren, yinelemeli olarak ilerliyoruz.",
+		},
+		{
+			img: "/img/graph-flood/gf19.png",
+			caption:
+				"Dizinin işaretçilerini geziyoruz.",
+		},
+		{
+			img: "/img/graph-flood/gf20.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf21.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf22.png",
+			caption:
+				"Biraz daha nesne bulduk...",
+		},
+		{
+			img: "/img/graph-flood/gf23.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf24.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf25.png",
+			caption:
+				"Sonra dizi nesnesinin işaret ettiği nesneleri geziyoruz!",
+		},
+		{
+			img: "/img/graph-flood/gf26.png",
+			caption:
+				"Ve `nil` olsalar bile tüm işaretçileri gözden geçirmemiz gerektiğini unutmayın. Önceden bunların `nil` olup olmayacağını bilemeyiz.",
+		},
+		{
+			img: "/img/graph-flood/gf27.png",
+			caption:
+				"Bu dalda bir nesne daha var...",
+		},
+		{
+			img: "/img/graph-flood/gf28.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf29.png",
+			caption:
+				"Ve şimdi diğer dala ulaştık, çok daha önce köklerden birinden bulduğumuz **A** sayfasındaki nesneden başlayarak.",
+		},
+		{
+			img: "/img/graph-flood/gf29.png",
+			caption:
+				"Burada iş listemiz için son giren ilk çıkar _(LIFO)_ kuralının uygulandığını fark etmiş olabilirsiniz. Bu, iş listemizin bir yığın olduğunu ve dolayısıyla grafik selimizin yaklaşık olarak derinlik öncelikli olduğunu gösterir. Bu kasıtlıdır ve Go çalışma zamanındaki gerçek grafik sel algoritmasını yansıtır.",
+		},
+		{
+			img: "/img/graph-flood/gf30.png",
+			caption:
+				"Devam edelim…",
+		},
+		{
+			img: "/img/graph-flood/gf31.png",
+			caption:
+				"Sonra başka bir dizi nesnesi buluyoruz…",
+		},
+		{
+			img: "/img/graph-flood/gf32.png",
+			caption:
+				"Ve bunda geziniyoruz...",
+		},
+		{
+			img: "/img/graph-flood/gf33.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf34.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf35.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf36.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf37.png",
+			caption:
+				"İş listemizde sadece bir nesne kaldı...",
+		},
+		{
+			img: "/img/graph-flood/gf38.png",
+			caption:
+				"Hadi bunu da tarayalım...",
+		},
+		{
+			img: "/img/graph-flood/gf39.png",
+			caption:
+				"",
+		},
+		{
+			img: "/img/graph-flood/gf40.png",
+			caption:
+				"Ve işaretleme aşaması bitti! Aktif olarak üzerinde çalıştığımız hiçbir şey yok ve iş listemizde hiçbir şey kalmadı. Sarıyla çizilen her nesne ulaşılabilir, griyle çizilen her nesne ise ulaşılamaz. Ulaşılamaz nesneleri tek seferde süpürelim.",
+		},
+		{
+			img: "/img/graph-flood/gf41.png",
+			caption:
+				"Bu nesneleri yeni nesneleri barındırabilecek boş alanlara dönüştürdük.",
+		},
+	];
 </script>
-
-// todo: write barrier
 
 Go'nun yeni çöp toplayıcısı olan **Green Tea GC**, 1.25 versiyonu ile kullanıma sunuldu. Google bu yeni çöp toplayıcıyı halihazırda kendi bünyesinde kullandığını ve güvenilir bir şekilde uygulamalarımızda kullanabileceğimizi duyurdu. Şuanda `GOEXPERIMENT=greenteagc` ortam değişkeni ile kullanabildiğimiz bu özellik, Go'nun 1.26 sürümünden itibaren varsayılan olarak kullanılacak. 1.26 ve sonrası sürümlerde eski çöp toplayıcıyı kullanmak isteyenler derleme esnasında `GOEXPERIMENT=nogreenteagc` ortam değişkeni ile eski versiyonunu kullanmaya devam edebilecekler.
 
@@ -63,6 +290,10 @@ Kök nesneler üzerinden Heap'deki diğer nesnelere ulaşır (Graph Yapısı). G
 
 Bu beyaz nesneler gezilerek tuttukları alanlar **free** _(serbest)_ olarak işaretlenir ve böylece **allocator** _(bellek ayırıcı)_ bu alanların yeniden kullanılmasına izin verir.
 
+**Graph Flood** _(Grafik Seli)_ olarak eski çöp toplayıcının nasıl çalıştığını şema üzerinde görelim. **Önceki** ve **Sonraki** butonlarına tıklayarak interaktif olarak görebilirsiniz. _(Büyültmek için resime tıklayın)_
+
+<Gallery elems={graphFloodElems}/>
+
 Eski çöp toplayıcıda maliyetin yaklaşık %90'nı Mark _(işaretleme)_ aşamasında, %10'u ise Sweep _(Temizleme)_ aşamasında harcanmaktadır. %90'lık işaretleme kısmı, performans kaybına en çok sebep olunan yerdir. Gezinme esnasında, Graph yapısı ile bir nesneden bağlantılı olduğu nesneye geçilirken bellekte çok farklı alanlar arasında zıplanılarak değerler getirilir. Her seferinde birbirinden farklı nesnelere erişilmek istediğinde, bir sonraki nesne çok farklı bir yerde olabileceğinden, çok yüksek bir ihtimalle işlemci önbelleğinde _(cache)_ bulunmaz.
 
 ![bellek-duvari](./assets/img/bellek-duvari.png)
@@ -71,18 +302,18 @@ Günümüzde işlemciler _(CPU)_ belleklerden _(RAM)_ çok daha hızlıdır. İ�
 
 Bilgisayar teknolojisinin son 40 yıllık gelişimine bakıldığında iki farklı hız grafiği görülür:
 
-- **İşlemciler (CPU):** Hızları her 1.5 - 2 yılda bir ikiye katlanarak (Moore Yasası) artmıştır.
-- **Bellekler (RAM):** Hızları çok daha yavaş bir ivmeyle (yıllık ortalama %7-10) artmıştır.
+- **İşlemciler (CPU):** Hızları her 1.5 - 2 yılda bir ikiye katlanarak _(Moore Yasası)_ artmıştır.
+- **Bellekler (RAM):** Hızları çok daha yavaş bir ivmeyle _(yıllık ortalama %7-10)_ artmıştır.
 
-Bu iki eğri arasındaki makas zamanla o kadar açılmıştır ki, işlemci bir komutu nanosaniyeler içinde işleyebilirken, bellekten verinin gelmesi yüzlerce döngü (cycle) sürebilir. Bu bekleme süresine Gecikme (Latency) denir.
+Bu iki eğri arasındaki makas zamanla o kadar açılmıştır ki, işlemci bir komutu nanosaniyeler içinde işleyebilirken, bellekten verinin gelmesi yüzlerce döngü _(cycle)_ sürebilir. Bu bekleme süresine Gecikme _(Latency)_ denir.
 
 İşaretleme süresinin yaklaşık %35'i, CPU'nun RAM'den veri gelmesinin beklerken boşa harcadığı döngülerden _(cycles)_ oluşur.
 
 <Mermaid string={gcCPUTimePieChart} config={config} />
 
-Bu problem karşısında verimliliği arttırabilmek için, Green Tea GC'de Mark _(İşaretleme)_ aşamasında iyileştirmeler yapılmıştır. Nesne odaklı çalışmak yerine, sayfa odaklı çalışılır. İşlemciler _(Mantıksal)_, iş listesindeki verileri tekil nesneler halinde işlemek yerine toplu (sayfa) olarak işler.
+Bu problem karşısında verimliliği arttırabilmek için, Green Tea GC'de Mark _(İşaretleme)_ aşamasında iyileştirmeler yapılmıştır. Nesne odaklı çalışmak yerine, sayfa odaklı çalışılır. İşlemciler _(Mantıksal)_, iş listesindeki verileri tekil nesneler halinde işlemek yerine toplu _(sayfa)_ olarak işler.
 
-Sayfa odaklı yaklaşımda ardışık değerler üzerinde çalışıldığından, bellek erişimleri optimize edebilirdir. Çünkü ardışık değerler işlemci önbelleğinde halihazırda bulunma ihtimali daha fazladır. İşlemci önbelleğine (CPU Cache) erişim, bellek (RAM) erişimine göre çok daha hızlı olduğundan, değerin burada olması performansı iyileştirir.
+Sayfa odaklı yaklaşımda ardışık değerler üzerinde çalışıldığından, bellek erişimleri optimize edebilirdir. Çünkü ardışık değerler işlemci önbelleğinde halihazırda bulunma ihtimali daha fazladır. İşlemci önbelleğine _(CPU Cache)_ erişim, bellek _(RAM)_ erişimine göre çok daha hızlı olduğundan, değerin burada olması performansı iyileştirir.
 
 !> Önbellek _(CPU Cache)_, CPU'nun en sık ihtiyaç duyduğu verileri RAM'den önce kendine alarak bu bekleme süresini _(latency)_ minimize eder.
 
