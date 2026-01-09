@@ -12,7 +12,6 @@
 	"devDependencies": {
 		"@iconify/svelte": "^4.0.2",
 		"@shikijs/transformers": "^1.22.0",
-		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
@@ -32,6 +31,7 @@
 	},
 	"dependencies": {
 		"@friendofsvelte/mermaid": "^0.0.4",
+		"@sveltejs/adapter-cloudflare": "^7.2.4",
 		"mdsvex-relative-images": "^1.0.3",
 		"remark-emoji": "^5.0.1",
 		"remark-hint": "^1.0.10",
