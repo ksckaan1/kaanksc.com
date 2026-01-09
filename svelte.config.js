@@ -3,7 +3,6 @@ import adapter from "@sveltejs/adapter-auto";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import remarkEmoji from "remark-emoji";
 import remarkHint from "remark-hint";
-import remarkMermaid from "remark-mermaid";
 import relativeImages from "mdsvex-relative-images";
 
 /** @type {import('mdsvex').MdsvexOptions} */
@@ -14,7 +13,7 @@ const mdsvexOptions = {
 			return `<Components.pre code={\`${escape(code)}\`} lang={\`${lang ?? "text"}\`} args={\`${args ?? ""}\`} />`;
 		},
 	},
-	remarkPlugins: [remarkMermaid, remarkEmoji, remarkHint, relativeImages],
+	remarkPlugins: [remarkEmoji, remarkHint, relativeImages],
 	layout: {
 		_: "./src/layouts/mdsvex.svelte",
 	},
