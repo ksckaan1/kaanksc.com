@@ -497,7 +497,7 @@ Kök nesneler üzerinden Heap'deki diğer nesnelere ulaşır ([Graph Yapısı](h
 
 ### 2. Sweep (Temizleme) Aşaması
 
-İşaretleme bittiğinde, bellekteki tüm nesneler ya siyah (erişilebilir, canlı) yada beyaz (erişilemez, kullanılmayan) durumdadır. Tarama sonucu beyaz nesnelerin tümü çöp olarak kabul edilir.
+İşaretleme bittiğinde, bellekteki tüm nesneler ya siyah (erişilebilir, canlı (aşağıdaki grafiklerde siyah yerine sarı kullandım)) yada beyaz (erişilemez, kullanılmayan) durumdadır. Tarama sonucu beyaz nesnelerin tümü çöp olarak kabul edilir.
 
 Bu beyaz nesneler gezilerek tuttukları alanlar **free** _(serbest)_ olarak işaretlenir ve böylece **allocator** _(bellek ayırıcı)_ bu alanların yeniden kullanılmasına izin verir.
 

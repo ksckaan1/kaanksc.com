@@ -2,6 +2,7 @@
 	import { marked } from "marked";
 	import TextButton from "../TextButton.svelte";
 	import Icon from "@iconify/svelte";
+	import { onMount } from "svelte";
 
 	type Elem = {
 		img: string;
@@ -17,6 +18,26 @@
 	let activeIndex = $state(0);
 
 	let isMaximized = $state(false);
+
+	const listenArrowKeys = (ev: KeyboardEvent) => {
+		if (!isMaximized) return;
+
+		if (ev.key === "ArrowLeft" && activeIndex > 0) {
+			activeIndex--;
+		}
+
+		if (ev.key === "ArrowRight" && activeIndex < elems.length - 1) {
+			activeIndex++;
+		}
+	};
+
+	onMount(() => {
+		window.addEventListener("keydown", listenArrowKeys);
+
+		return () => {
+			window.removeEventListener("keypress", listenArrowKeys);
+		};
+	});
 </script>
 
 <div
