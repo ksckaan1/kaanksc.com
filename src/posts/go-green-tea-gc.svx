@@ -29,229 +29,440 @@ published: false
   
 	const graphFloodElems = [
 		{
-			img: "/img/graph-flood/gf01.png",
+			img: "/img/graph-flood/gf01.webp",
 			caption:
 				"Burada bazı global değişkenlerin ve Go Heap'in bir diyagramı var. Parça parça inceleyelim.",
 		},
 		{
-			img: "/img/graph-flood/gf02.png",
+			img: "/img/graph-flood/gf02.webp",
 			caption:
 				"Sol tarafta kök nesnelerimiz var. Bunlar `x` ve `y` global değişkenleridir. Graph gezintimizin başlangıç noktası olacaklardır. Sol alt köşedeki kullanışlı açıklamaya göre mavi renkle işaretlendiklerinden, şu anda iş listemizde yer almaktadırlar.",
 		},
 		{
-			img: "/img/graph-flood/gf03.png",
+			img: "/img/graph-flood/gf03.webp",
 			caption:
 				"Sağ tarafta, heap'imiz var. Şu anda, heap'imizdeki her şey gri renkte çünkü henüz hiçbirini ziyaret etmedik.",
 		},
 		{
-			img: "/img/graph-flood/gf04.png",
+			img: "/img/graph-flood/gf04.webp",
 			caption:
 				"Bu dikdörtgenlerin her biri bir nesneyi temsil eder. Her nesne, türüyle etiketlenmiştir. Bu nesne, özellikle sol üstte türü tanımlanan `T` türünde bir nesnedir. Bir dizi alt nesneye işaretçi ve bazı değerler içerir. Bunun bir tür özyinelemeli ağaç veri yapısı olduğunu varsayabiliriz.",
 		},
 		{
-			img: "/img/graph-flood/gf05.png",
+			img: "/img/graph-flood/gf05.webp",
 			caption:
 				"`T` türündeki nesnelerin yanı sıra, `*T` içeren dizi nesnelerimiz de olduğunu fark edeceksiniz. Bunlar, `T` türündeki nesnelerin `children` alanı tarafından işaret edilmektedir.",
 		},
 		{
-			img: "/img/graph-flood/gf06.png",
+			img: "/img/graph-flood/gf06.webp",
 			caption:
 				"Dikdörtgenin içindeki her kare 8 baytlık belleği temsil eder. Noktalı kare bir işaretçidir _(pointer)_. Ok işareti varsa, başka bir nesneyi gösteren `nil` olmayan bir pointer'dır.",
 		},
 		{
-			img: "/img/graph-flood/gf07.png",
+			img: "/img/graph-flood/gf07.webp",
 			caption:
 				"Ve karşılık gelen ok yoksa, o zaman bu bir `nil pointer`'dır.",
 		},
 		{
-			img: "/img/graph-flood/gf08.png",
+			img: "/img/graph-flood/gf08.webp",
 			caption:
 				"Sonra, bu noktalı dikdörtgenler boş alanı temsil ediyor, ben buna `serbest alan` diyeceğim. Oraya bir nesne koyabiliriz, ama şu anda orada bir nesne yok.",
 		},
 		{
-			img: "/img/graph-flood/gf09.png",
+			img: "/img/graph-flood/gf09.webp",
 			caption:
 				"Nesnelerin, etiketli, noktalı yuvarlak dikdörtgenlerle gruplandırıldığını da fark edeceksiniz. Bunların her biri, sabit boyutlu, hizalanmış belleğin bitişik bir bloğu olan bir sayfayı temsil eder. Go'da sayfalar 8 KiB'dir _(donanım sanal bellek sayfa boyutundan bağımsız olarak)_. Bu sayfalar **A**, **B**, **C** ve **D** olarak etiketlenmiştir ve ben de bu şekilde bahsedeceğim.",
 		},
 		{
-			img: "/img/graph-flood/gf09.png",
+			img: "/img/graph-flood/gf09.webp",
 			caption:
 				"Bu şemada, her nesne bir sayfanın parçası olarak ayrılmıştır. Gerçek uygulamada olduğu gibi, buradaki her sayfa yalnızca belirli boyuttaki nesneleri içerir. Go heap'i işte bu şekilde düzenlenmiştir.",
 		},
 		{
-			img: "/img/graph-flood/gf10.png",
+			img: "/img/graph-flood/gf10.webp",
 			caption:
 				"Sayfalar ayrıca nesne başına meta verileri düzenleme yöntemimizdir. Burada, sayfa **A**'daki yedi nesne alanından her birine karşılık gelen yedi kutu görebilirsiniz.",
 		},
 		{
-			img: "/img/graph-flood/gf10.png",
+			img: "/img/graph-flood/gf10.webp",
 			caption:
 				"Her kutu bir bitlik bilgiyi temsil eder: nesneyi daha önce görmüş olup olmadığımızı. Aslında gerçek çalışma zamanı, bir nesnenin ziyaret edilip edilmediğini bu şekilde yönetir ve bu, daha sonra önemli bir ayrıntı olacaktır.",
 		},
 		{
-			img: "/img/graph-flood/gf01.png",
+			img: "/img/graph-flood/gf01.webp",
 			caption:
 				"Çok fazla ayrıntı vardı, okuduğunuz için teşekkürler. Bunların hepsi daha sonra devreye girecek. Şimdilik, grafik selimizin bu resme nasıl uygulandığını görelim.",
 		},
 		{
-			img: "/img/graph-flood/gf11.png",
+			img: "/img/graph-flood/gf11.webp",
 			caption:
 				"İş listesinden bir kökü alarak başlıyoruz. Artık aktif olduğunu belirtmek için kırmızı renkle işaretliyoruz.",
 		},
 		{
-			img: "/img/graph-flood/gf12.png",
+			img: "/img/graph-flood/gf12.webp",
 			caption:
 				"Bu kökün işaretçisini takip ederek, `T` türünde bir nesne buluruz ve bunu iş listemize ekleriz. Başlığı _(mavi T)_, nesneyi iş listemizde olduğunu belirtmek için mavi renkle çizeriz. Ayrıca, meta verilerimizde bu nesneye karşılık gelen görüldü bitini ayarladığımızı da unutmayın.",
 		},
 		{
-			img: "/img/graph-flood/gf13.png",
+			img: "/img/graph-flood/gf13.webp",
 			caption:
 				"Aynı şey bir sonraki kök için de geçerlidir.",
 		},
 		{
-			img: "/img/graph-flood/gf14.png",
+			img: "/img/graph-flood/gf14.webp",
 			caption:
 				"Tüm kökleri hallettiğimize göre, iş listemizde iki nesne kaldı. İş listesinden bir nesneyi kaldıralım.",
 		},
 		{
-			img: "/img/graph-flood/gf15.png",
+			img: "/img/graph-flood/gf15.webp",
 			caption:
 				"Şimdi yapacağımız şey, daha fazla nesne bulmak için nesnelerin işaretçilerini taramak. Bu arada, bir nesnenin işaretçilerini taramaya `tarama` diyoruz.",
 		},
 		{
-			img: "/img/graph-flood/gf16.png",
+			img: "/img/graph-flood/gf16.webp",
 			caption:
 				"Bu geçerli dizi nesnesini buluyoruz...",
 		},
 		{
-			img: "/img/graph-flood/gf17.png",
+			img: "/img/graph-flood/gf17.webp",
 			caption:
 				"… ve bunu iş listemize ekledik.",
 		},
 		{
-			img: "/img/graph-flood/gf18.png",
+			img: "/img/graph-flood/gf18.webp",
 			caption:
 				"Buradan itibaren, yinelemeli olarak ilerliyoruz.",
 		},
 		{
-			img: "/img/graph-flood/gf19.png",
+			img: "/img/graph-flood/gf19.webp",
 			caption:
 				"Dizinin işaretçilerini geziyoruz.",
 		},
 		{
-			img: "/img/graph-flood/gf20.png",
+			img: "/img/graph-flood/gf20.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf21.png",
+			img: "/img/graph-flood/gf21.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf22.png",
+			img: "/img/graph-flood/gf22.webp",
 			caption:
 				"Biraz daha nesne bulduk...",
 		},
 		{
-			img: "/img/graph-flood/gf23.png",
+			img: "/img/graph-flood/gf23.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf24.png",
+			img: "/img/graph-flood/gf24.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf25.png",
+			img: "/img/graph-flood/gf25.webp",
 			caption:
 				"Sonra dizi nesnesinin işaret ettiği nesneleri geziyoruz!",
 		},
 		{
-			img: "/img/graph-flood/gf26.png",
+			img: "/img/graph-flood/gf26.webp",
 			caption:
 				"Ve `nil` olsalar bile tüm işaretçileri gözden geçirmemiz gerektiğini unutmayın. Önceden bunların `nil` olup olmayacağını bilemeyiz.",
 		},
 		{
-			img: "/img/graph-flood/gf27.png",
+			img: "/img/graph-flood/gf27.webp",
 			caption:
 				"Bu dalda bir nesne daha var...",
 		},
 		{
-			img: "/img/graph-flood/gf28.png",
+			img: "/img/graph-flood/gf28.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf29.png",
+			img: "/img/graph-flood/gf29.webp",
 			caption:
 				"Ve şimdi diğer dala ulaştık, çok daha önce köklerden birinden bulduğumuz **A** sayfasındaki nesneden başlayarak.",
 		},
 		{
-			img: "/img/graph-flood/gf29.png",
+			img: "/img/graph-flood/gf29.webp",
 			caption:
 				"Burada iş listemiz için son giren ilk çıkar _(LIFO)_ kuralının uygulandığını fark etmiş olabilirsiniz. Bu, iş listemizin bir yığın olduğunu ve dolayısıyla grafik selimizin yaklaşık olarak derinlik öncelikli olduğunu gösterir. Bu kasıtlıdır ve Go çalışma zamanındaki gerçek grafik sel algoritmasını yansıtır.",
 		},
 		{
-			img: "/img/graph-flood/gf30.png",
+			img: "/img/graph-flood/gf30.webp",
 			caption:
 				"Devam edelim…",
 		},
 		{
-			img: "/img/graph-flood/gf31.png",
+			img: "/img/graph-flood/gf31.webp",
 			caption:
 				"Sonra başka bir dizi nesnesi buluyoruz…",
 		},
 		{
-			img: "/img/graph-flood/gf32.png",
+			img: "/img/graph-flood/gf32.webp",
 			caption:
 				"Ve bunda geziniyoruz...",
 		},
 		{
-			img: "/img/graph-flood/gf33.png",
+			img: "/img/graph-flood/gf33.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf34.png",
+			img: "/img/graph-flood/gf34.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf35.png",
+			img: "/img/graph-flood/gf35.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf36.png",
+			img: "/img/graph-flood/gf36.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf37.png",
+			img: "/img/graph-flood/gf37.webp",
 			caption:
 				"İş listemizde sadece bir nesne kaldı...",
 		},
 		{
-			img: "/img/graph-flood/gf38.png",
+			img: "/img/graph-flood/gf38.webp",
 			caption:
 				"Hadi bunu da tarayalım...",
 		},
 		{
-			img: "/img/graph-flood/gf39.png",
+			img: "/img/graph-flood/gf39.webp",
 			caption:
 				"",
 		},
 		{
-			img: "/img/graph-flood/gf40.png",
+			img: "/img/graph-flood/gf40.webp",
 			caption:
 				"Ve işaretleme aşaması bitti! Aktif olarak üzerinde çalıştığımız hiçbir şey yok ve iş listemizde hiçbir şey kalmadı. Sarıyla çizilen her nesne ulaşılabilir, griyle çizilen her nesne ise ulaşılamaz. Ulaşılamaz nesneleri tek seferde süpürelim.",
 		},
 		{
-			img: "/img/graph-flood/gf41.png",
+			img: "/img/graph-flood/gf41.webp",
 			caption:
 				"Bu nesneleri yeni nesneleri barındırabilecek boş alanlara dönüştürdük.",
+		},
+	];
+	
+	const greenTeaElems = [
+		{
+			img: "/img/green-tea/gt01.webp",
+			caption:
+				"Bu şemada önceki ile aynı Heap var, ancak şimdi her nesne için bir yerine iki bit meta veri var. Yine, her bit veya kutu, sayfadaki nesne yuvalarından birine karşılık geliyor. Toplamda, sayfa **A**'daki yedi yuvaya karşılık gelen on dört bitimiz var.",
+		},
+		{
+			img: "/img/green-tea/gt01.webp",
+			caption:
+				"Üst bitler öncekiyle aynı şeyi temsil ediyor: nesnedeki işaretçiyi gördük mü görmedik mi. Bunlara `görülen` bitler diyeceğim. Alttaki bitler yeni. Bu `taranan` bitler nesneyi taradık mı taramadık mı takip ediyor.",
+		},
+		{
+			img: "/img/green-tea/gt01.webp",
+			caption:
+				"Bu yeni meta veri parçası gereklidir çünkü Green tea'de iş listesi nesneleri değil sayfaları izler. Yine de bir düzeyde nesneleri izlememiz gerekir ve bu bitlerin amacı da budur.",
+		},
+		{
+			img: "/img/green-tea/gt02.webp",
+			caption:
+				"Daha önce olduğu gibi, kök nesnelerden gezinerek başlıyoruz.",
+		},
+		{
+			img: "/img/green-tea/gt03.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt04.webp",
+			caption:
+				"Ancak bu sefer, iş listesine bir nesne eklemek yerine, tüm sayfayı _(bu durumda A sayfası)_ iş listesine ekledik ve tüm sayfayı mavi renkle renklendirerek bunu belirttik.",
+		},
+		{
+			img: "/img/green-tea/gt05.webp",
+			caption:
+				"Bulduğumuz nesne de mavidir, bu da bu sayfayı iş listesinden çıkardığımızda o nesneye bakmamız gerekeceğini gösterir. Nesnenin mavi tonunun doğrudan sayfa **A**'daki meta verileri yansıttığına dikkat edin. İlgili görünen bit ayarlanmıştır, ancak taranan bit ayarlanmamıştır.",
+		},
+		{
+			img: "/img/green-tea/gt06.webp",
+			caption:
+				"Bir sonraki kökü takip ederiz, başka bir nesne buluruz ve yine tüm sayfayı _(sayfa C)_ iş listesine ekler ve nesnenin görüldü bitini ayarlarız.",
+		},
+		{
+			img: "/img/green-tea/gt07.webp",
+			caption:
+				"Kökleri takip etmeyi bitirdik, bu yüzden iş listesine dönüp iş listesinden **A** sayfasını çıkarıyoruz.",
+		},
+		{
+			img: "/img/green-tea/gt08.webp",
+			caption:
+				"Görülen ve taranan bitleri kullanarak, **A** sayfasında taranacak bir nesne olduğunu söyleyebiliriz.",
+		},
+		{
+			img: "/img/green-tea/gt09.webp",
+			caption:
+				"Bu nesneyi, işaretçilerini takip ederek tararız. Sonuç olarak, sayfa **A**'daki ilk nesne sayfa **B**'deki bir nesneyi işaret ettiği için sayfa **B**'yi çalışma listesine ekleriz.",
+		},
+		{
+			img: "/img/green-tea/gt10.webp",
+			caption:
+				"**A** sayfası bitti. Şimdi iş listesinden **C** sayfasını alalım.",
+		},
+		{
+			img: "/img/green-tea/gt11.webp",
+			caption:
+				"**A** sayfasına benzer şekilde, **C** sayfasında da taranacak tek bir nesne bulunmaktadır.",
+		},
+		{
+			img: "/img/green-tea/gt12.webp",
+			caption:
+				"Sayfa **B**'de başka bir nesneye işaret eden bir işaretçi bulduk. Sayfa **B** zaten iş listesinde olduğundan, iş listesine hiçbir şey eklememize gerek yok. Hedef nesne için sadece `görüldü` bitini ayarlamamız yeterli.",
+		},
+		{
+			img: "/img/green-tea/gt13.webp",
+			caption:
+				"Şimdi sıra **B** sayfasında. **B** sayfasında taramak için iki nesne biriktirdik ve bu nesneleri bellek sırasına göre arka arkaya işleyebiliriz!",
+		},
+		{
+			img: "/img/green-tea/gt14.webp",
+			caption:
+				"İlk nesnenin işaretçilerini geziyoruz…",
+		},
+		{
+			img: "/img/green-tea/gt15.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt16.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt17.webp",
+			caption:
+				"Sayfa **A**'da bir nesneye işaretçi buluyoruz. Sayfa **A** daha önce iş listesindeydi, ancak şu anda listede değil, bu yüzden onu tekrar iş listesine ekliyoruz. Herhangi bir nesnenin tüm işaretleme aşaması boyunca en fazla bir kez iş listesine eklendiği orijinal işaretleme-temizleme _(eski olan)_ algoritmasından farklı olarak, Green Tea'de belirli bir sayfa bir işaretleme aşaması sırasında iş listesinde birkaç kez yeniden görünebilir.",
+		},
+		{
+			img: "/img/green-tea/gt18.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt19.webp",
+			caption:
+				"Sayfada ilk nesneden hemen sonra görünen ikinci nesneyi tararız.",
+		},
+		{
+			img: "/img/green-tea/gt20.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt21.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt22.webp",
+			caption:
+				"**A** sayfasında birkaç nesne daha buluyoruz...",
+		},
+		{
+			img: "/img/green-tea/gt23.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt24.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt25.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt26.webp",
+			caption:
+				"**B** sayfasını taramayı bitirdik, bu yüzden **A** sayfasını iş listesinden çıkarıyoruz.",
+		},
+		{
+			img: "/img/green-tea/gt27.webp",
+			caption:
+				"Bu sefer, ilk nesneyi zaten taradığımız için dört nesne değil, sadece üç nesneyi taramamız gerekiyor. `Görülen` ve `taranan` bitleri arasındaki farka bakarak hangi nesneleri tarayacağımızı biliyoruz.",
+		},
+		{
+			img: "/img/green-tea/gt28.webp",
+			caption:
+				"Bu nesneleri sırayla tarayacağız.",
+		},
+		{
+			img: "/img/green-tea/gt29.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt30.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt31.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt32.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt33.webp",
+			caption:
+				"",
+		},
+		{
+			img: "/img/green-tea/gt34.webp",
+			caption:
+				"İşimiz bitti! İş listesinde başka sayfa kalmadı ve aktif olarak incelediğimiz başka bir şey yok. Erişilebilir tüm nesneler hem görüldü hem de tarandı, bu nedenle meta verilerin artık düzgün bir şekilde sıralandığını fark edebilirsiniz.",
+		},
+		{
+			img: "/img/green-tea/gt34.webp",
+			caption:
+				"Gezinti sırasında, iş listesinin sırasının grafik selinden _(graph flood)_ biraz farklı olduğunu da fark etmiş olabilirsiniz. Grafik selinde son giren ilk çıkar _(LIFO)_ veya yığın _(stack)_ benzeri bir sıra varken, burada iş listemizdeki sayfalar için ilk giren ilk çıkar _(FIFO)_ veya kuyruk _(queue)_ benzeri bir sıra kullanıyoruz.",
+		},
+		{
+			img: "/img/green-tea/gt34.webp",
+			caption:
+				"Bu kasıtlıdır. Sayfa kuyrukta beklerken görünen nesneleri her sayfada biriktiriyoruz, böylece bir seferde olabildiğince çoğunu işleyebiliyoruz. Bu sayede **A** sayfasında bir seferde bu kadar çok nesneye ulaşabildik. Bazen tembellik bir erdemdir.",
+		},
+		{
+			img: "/img/green-tea/gt35.webp",
+			caption:
+				"Ve sonunda, daha önce olduğu gibi, ziyaret edilmeyen nesneleri silebiliriz.",
+		},
+	];
+	
+	const comparisonElems = [
+		{
+			img: "/img/graph-flood/gf42.webp",
+			caption:
+				"**Eski GC:** Graph Flood olduğunda bellekteki rastele alanlara zıplıyoruz ve daha fazla tarama adımının olduğunuz görebilirsiniz.",
+		},
+		{
+			img: "/img/green-tea/gt36.webp",
+			caption:
+				"**Green Tea:** Sayfa odaklı tarama yapıldığı için daha az tarama adımı ile işaretleme işlemini tamamlayabiliyoruz.",
 		},
 	];
 </script>
@@ -264,9 +475,9 @@ Green Tea GC'nin, yapılan benchmark sonuçlarında %10-%40 oranında işlemcini
 
 ## Çöp Toplama İşlemi
 
-Bellek _(RAM)_ mantıksal olarak iki bölüme ayrılır. Çöp toplama işleminin amacı bellekteki **Heap** bölümünde kullanılmayan nesnelerin tespit edilmesi ve serbest bırakılmasıdır. **Stack** bölümünde saklanan nesneler zaten işleri bitince otomatik olarak serbest bırakılır (temizlenir).
+Bellek _(RAM)_ mantıksal olarak iki bölüme ayrılır. Çöp toplama işleminin amacı bellekteki [Heap](https://tr.wikipedia.org/wiki/%C3%96bek_(veri_yap%C4%B1s%C4%B1)) bölümünde kullanılmayan nesnelerin tespit edilmesi ve serbest bırakılmasıdır. [Stack](https://web.itu.edu.tr/aydoganf/software/ram-ve-stack/) bölümünde saklanan nesneler zaten işleri bitince otomatik olarak serbest bırakılır (temizlenir).
 
-Go'da çöp toplama yaparken **Concurrent Tri-color Mark and Sweep** _(Eşzamanlı Üç Renkli İşaretleme ve Temizleme)_ algoritmasını temel alınır. Bu algoritma hem eski hem de yeni Green Tea GC'nin temelini oluşturur. Bu süreç iki aşamadan oluştur.
+Go'da çöp toplama yaparken [Concurrent Tri-color Mark and Sweep](https://en.wikipedia.org/wiki/Tracing_garbage_collection#Tri-color_marking) _(Eşzamanlı Üç Renkli İşaretleme ve Temizleme)_ algoritmasını temel alınır. Bu algoritma hem eski hem de yeni Green Tea GC'nin temelini oluşturur. Bu süreç iki aşamadan oluştur.
 
 ![gophergc](./assets/img/tri-color-mark-and-sweep.png)
 
@@ -280,7 +491,7 @@ Kök nesneler şunlardır:
 - **Yerel Değişkenler:** Fonksiyonların çalışma sürecinde sadece o an kullanılacak olan ve fonksiyonun dışına çıkmayan, Stack üzerinde saklanmaya karar verilmiş değişkenlerdir.
 - **Sabitler:** Tanımlanmış olan sabit değerlerdir.
 
-Kök nesneler üzerinden Heap'deki diğer nesnelere ulaşır (Graph Yapısı). Gezdiği nesneleri gri olarak işaretler ve gri olarak işaretlenen nesneler canlıdır yani hala kullanıldığı anlamına gelir. Bu nesneler incelenmek üzere **iş kuyruğuna** _(work list)_ eklenir.
+Kök nesneler üzerinden Heap'deki diğer nesnelere ulaşır ([Graph Yapısı](https://en.wikipedia.org/wiki/Graph_traversal)). Gezdiği nesneleri gri olarak işaretler ve gri olarak işaretlenen nesneler canlıdır yani hala kullanıldığı anlamına gelir. Bu nesneler incelenmek üzere **iş kuyruğuna** _(work list)_ eklenir.
 
 İş kuyruğundan nesneleri alan **işlemciler** _(P)_, nesnelere bakar. Nesnelerin içinlerindeki işaretçiler ile bellekten _(RAM)_ değerlerini getirir. Bu değerlerin içinde başka işaretçiler varsa onların nesnelerini de gri olarak işaretleyip yeniden iş kuyruğuna ekler. Tarama sonucunda kullanılan nesneleri **siyah** olarak işaretler. Mark (işaretleme) aşaması sonunda bazı nesnelere ulaşılamaz (haliyle gezilmez) ve bu nesneler beyaz kalmaya devam eder.
 
@@ -298,7 +509,7 @@ Eski çöp toplayıcıda maliyetin yaklaşık %90'nı Mark _(işaretleme)_ aşam
 
 ![bellek-duvari](./assets/img/bellek-duvari.png)
 
-Günümüzde işlemciler _(CPU)_ belleklerden _(RAM)_ çok daha hızlıdır. İşlemci bir işi yapmak için bellekten değerlerin getirilmesini bekler. Bu zaman **Stalling** _(bekleme)_ olarak adlandırılır. **Stalling**, işlemciyi beklemeye zorlayan işlemlerden kaynaklanır. Bu nedenle, bellek erişimlerini optimize etmek önemlidir. İşlemcinin hızının, bellek hızında çok daha fazla olması sebebiyle bir darboğaz oluşur. Buna **Bellek Duvarı** _(Memory Wall)_ problemi denir.
+Günümüzde işlemciler _(CPU)_ belleklerden _(RAM)_ çok daha hızlıdır. İşlemci bir işi yapmak için bellekten değerlerin getirilmesini bekler. Bu zaman **Stalling** _(bekleme)_ olarak adlandırılır. **Stalling**, işlemciyi beklemeye zorlayan işlemlerden kaynaklanır. Bu nedenle, bellek erişimlerini optimize etmek önemlidir. İşlemcinin hızının, bellek hızında çok daha fazla olması sebebiyle bir darboğaz oluşur. Buna [Bellek Duvarı](https://ayarlabs.com/glossary/memory-wall/) _(Memory Wall)_ problemi denir.
 
 Bilgisayar teknolojisinin son 40 yıllık gelişimine bakıldığında iki farklı hız grafiği görülür:
 
@@ -316,6 +527,8 @@ Bu problem karşısında verimliliği arttırabilmek için, Green Tea GC'de Mark
 Sayfa odaklı yaklaşımda ardışık değerler üzerinde çalışıldığından, bellek erişimleri optimize edebilirdir. Çünkü ardışık değerler işlemci önbelleğinde halihazırda bulunma ihtimali daha fazladır. İşlemci önbelleğine _(CPU Cache)_ erişim, bellek _(RAM)_ erişimine göre çok daha hızlı olduğundan, değerin burada olması performansı iyileştirir.
 
 !> Önbellek _(CPU Cache)_, CPU'nun en sık ihtiyaç duyduğu verileri RAM'den önce kendine alarak bu bekleme süresini _(latency)_ minimize eder.
+
+<Gallery elems={greenTeaElems}/>
 
 Eski çöp toplayıcı ve yeni Green Tea GC arasındaki farkları daha kolay anlayabilmek için karşılaştırmalı olarak görelim:
 
@@ -344,4 +557,13 @@ Eski çöp toplayıcı ve yeni Green Tea GC arasındaki farkları daha kolay anl
 	- **Eski GC:** Her nesneyi aynı şekilde işler; nesnenin bellekteki konumu süreci değiştirmez.
 	- **Yeni GC (Green Tea):** Eğer bir sayfada taranacak sadece tek bir nesne varsa, tüm sayfayı işlemenin verimsiz olacağını anlayarak **temsilci nesne** _(representative object)_ optimizasyonuna geçer ve sadece o nesneyi tarar.
 
+
+Aradaki farklı tarama olarak görmek istersiz aşağıdaki şemayı inceleyebilirsiniz:
+
+<Gallery elems={comparisonElems}/>
+
 !> **Özet bir analoji** <br/> Eski GC, kütüphanede her kitap ismi duyduğunda yerinden kalkıp ilgili rafa giden, sadece o kitabı alıp geri dönen ve bir sonraki isim için tekrar rafa koşan bir araştırmacı gibidir. Green Tea GC ise, bir kitap ismi duyduğunda o kitabın bulunduğu tüm rafı _(sayfayı)_ masasına getiren ve o raftaki tüm ilgili kitapları tek seferde inceleyen araştırmacıdır; bu sayede defalarca raflar arasında gidip gelerek vakit kaybetmez
+
+#### Kaynaklar
+
+- [The Green Tea Garbage Collector](https://go.dev/blog/greenteagc)
