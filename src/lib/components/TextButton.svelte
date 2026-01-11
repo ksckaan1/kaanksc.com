@@ -21,7 +21,7 @@
 	{onclick}
 	use:ripple
 	class="text-primary rounded px-4 py-2"
-	class:opacity-50={disabled}
+	class:opacity-30={disabled}
 	{disabled}
 >
 	{@render children?.()}
