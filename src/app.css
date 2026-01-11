@@ -40,7 +40,11 @@ body {
 .prose h4,
 .prose h5,
 .prose h6 {
-	@apply text-slate-200 font-light;
+	@apply text-slate-200 font-normal;
+}
+
+.prose p {
+	@apply text-white/75;
 }
 
 .prose > p > img {
