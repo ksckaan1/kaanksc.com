@@ -1,5 +1,5 @@
 ---
-title: Go Green Tea Çöp Toplayıcısı
+title: Go'nun Yeni Çöp Toplayıcısı (Green Tea GC)
 description: Bu yazıda Go'dali Green Tea Çöp Toplayıcısı'nın nasıl çalıştığını ve neden gerekli olduğunu anlattım.
 date: '2026-01-01'
 tags: ['go', 'gc', 'garbage', 'collector', 'çöp', 'toplayıcı', 'green', 'tea']
