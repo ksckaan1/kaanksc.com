@@ -95,7 +95,7 @@
 		class="
 		fixed top-0 left-0 w-screen h-screen z-50
 		flex items-center justify-center
-		p-10 bg-black/70 cursor-pointer backdrop-blur-xl"
+		p-5 bg-black/70 cursor-pointer backdrop-blur-xl"
 		onclick={(e) => {
 			if (e.target == e.currentTarget) isMaximized = false;
 		}}
