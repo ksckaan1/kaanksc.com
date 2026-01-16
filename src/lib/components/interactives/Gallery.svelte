@@ -123,11 +123,18 @@
 {:else}
 	<div
 		class="
-		flex flex-col
-		border border-white/20 gap-0 bg-gray-900 overflow-hidden rounded"
+		flex flex-col relative
+		border border-white/20 gap-0 bg-gray-900 rounded
+		group"
 		in:receive={{ key: "123" }}
 		out:send={{ key: "123" }}
 	>
+		<div
+			class="opacity-0 transition-opacity flex items-center gap-x-3 duration-200 group-hover:opacity-100 absolute left-0 w-full -top-10 bg-primary text-black px-3 py-1 rounded"
+		>
+			<Icon icon="material-symbols:info-outline" width="24" height="24" />
+			<span>Büyültmek için resme tıklayın</span>
+		</div>
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<img
