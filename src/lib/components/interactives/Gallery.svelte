@@ -3,6 +3,8 @@
 	import TextButton from "../TextButton.svelte";
 	import Icon from "@iconify/svelte";
 	import { onMount } from "svelte";
+	import { crossfade } from "svelte/transition";
+	import { quintInOut, quintOut } from "svelte/easing";
 
 	type Elem = {
 		img: string;
@@ -48,45 +50,15 @@
 
 		return () => window.removeEventListener("keypress", listenArrowKeys);
 	});
-</script>
 
-<div
-	class="
-	flex flex-col
-	border border-white/20 gap-0 bg-gray-900 overflow-hidden rounded"
->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<img
-		class="m-0 border-b border-white/20 cursor-pointer"
-		src={elems[activeIndex].img}
-		alt={elems[activeIndex].caption}
-		onclick={() => (isMaximized = true)}
-	/>
-	<div class="flex justify-between mt-3 items-center">
-		<TextButton onclick={() => activeIndex--} disabled={activeIndex === 0}>
-			<div class="flex gap-x-3">
-				<Icon icon="mdi:arrow-left" height="30" />
-				<span>Önceki</span>
-			</div>
-		</TextButton>
-		<span class="text-primary/50 text-sm">
-			{activeIndex + 1} / {elems.length}
-		</span>
-		<TextButton
-			onclick={() => activeIndex++}
-			disabled={activeIndex === elems.length - 1}
-		>
-			<div class="flex gap-x-3">
-				<span>Sonraki</span>
-				<Icon icon="mdi:arrow-right" height="30" />
-			</div>
-		</TextButton>
-	</div>
-	{#if elems[activeIndex].caption}
-		<p class="m-0 p-5 pt-0">{@html marked(elems[activeIndex].caption)}</p>
-	{/if}
-</div>
+	const [send, receive] = crossfade({
+		duration: 600,
+		easing: quintOut,
+		fallback(node, params) {
+			return { duration: 200, css: (t) => `opacity: ${t}` };
+		},
+	});
+</script>
 
 {#if isMaximized}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -106,6 +78,8 @@
 			border border-white/20 gap-0 bg-gray-900 rounded w-full max-w-6xl
 			cursor-auto
 			"
+			in:receive={{ key: "123" }}
+			out:send={{ key: "123" }}
 		>
 			<button
 				class="absolute right-0 -top-12 bg-gray-900 rounded border border-white/20 px-2 py-1"
@@ -145,5 +119,45 @@
 				<p class="m-0 p-5 pt-0">{@html marked(elems[activeIndex].caption)}</p>
 			{/if}
 		</div>
+	</div>
+{:else}
+	<div
+		class="
+		flex flex-col
+		border border-white/20 gap-0 bg-gray-900 overflow-hidden rounded"
+		in:receive={{ key: "123" }}
+		out:send={{ key: "123" }}
+	>
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<img
+			class="m-0 border-b border-white/20 cursor-pointer"
+			src={elems[activeIndex].img}
+			alt={elems[activeIndex].caption}
+			onclick={() => (isMaximized = true)}
+		/>
+		<div class="flex justify-between mt-3 items-center">
+			<TextButton onclick={() => activeIndex--} disabled={activeIndex === 0}>
+				<div class="flex gap-x-3">
+					<Icon icon="mdi:arrow-left" height="30" />
+					<span>Önceki</span>
+				</div>
+			</TextButton>
+			<span class="text-primary/50 text-sm">
+				{activeIndex + 1} / {elems.length}
+			</span>
+			<TextButton
+				onclick={() => activeIndex++}
+				disabled={activeIndex === elems.length - 1}
+			>
+				<div class="flex gap-x-3">
+					<span>Sonraki</span>
+					<Icon icon="mdi:arrow-right" height="30" />
+				</div>
+			</TextButton>
+		</div>
+		{#if elems[activeIndex].caption}
+			<p class="m-0 p-5 pt-0">{@html marked(elems[activeIndex].caption)}</p>
+		{/if}
 	</div>
 {/if}
