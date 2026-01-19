@@ -4,14 +4,14 @@ description: Bu yazıda Go'dali Green Tea Çöp Toplayıcısı'nın nasıl çal�
 date: '2026-01-01'
 tags: ['go', 'gc', 'garbage', 'collector', 'çöp', 'toplayıcı', 'green', 'tea']
 authors: ['ksckaan1']
-published: false
+published: true
 ---
 
 <script>
   import { Mermaid } from '@friendofsvelte/mermaid';
   import Gallery from "$lib/components/interactives/Gallery.svelte"
   import PieChart from "$lib/components/interactives/PieChart.svelte"
-  
+
 	const graphFloodElems = [
 		{
 			img: "/img/graph-flood/gf01.webp",
@@ -239,7 +239,7 @@ published: false
 				"Bu nesneleri yeni nesneleri barındırabilecek boş alanlara dönüştürdük.",
 		},
 	];
-	
+
 	const greenTeaElems = [
 		{
 			img: "/img/green-tea/gt01.webp",
@@ -437,7 +437,7 @@ published: false
 				"Ve sonunda, daha önce olduğu gibi, ziyaret edilmeyen nesneleri silebiliriz.",
 		},
 	];
-	
+
 	const comparisonElems = [
 		{
 			img: "/img/graph-flood/gf42.webp",
