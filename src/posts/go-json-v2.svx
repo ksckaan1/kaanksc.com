@@ -1,0 +1,260 @@
+---
+title: Go JSON V2 yenilikler ve değişiklikler
+description: Bu yazıda Go'nun yeni JSON paketinin nasıl çalıştığını ve yapılan değişiklikleri anlattım.
+date: "2026-07-19"
+tags: ["go", "json", "v2"]
+authors: ["ksckaan1"]
+published: false
+---
+
+Hepimizin Go'da en çok kullandığı paketlerden biri olan `encoding/json` paketinin yeni versiyonu olarak yayınlanan `encoding/json/v2`, Go'nun 1.27 versiyonunda varsayılan olarak standart paket olarak geliyor. Bu yeni versiyonda geliştiricileri şaşırtan, alan isimlerinin büyük/küçük harf duyarlı olmayışı, aynı isimde birden fazla alan tanımlanabilmesi, **nil slice**'ların `null` olarak basılması gibi birçok özellik _(bug)_ revize edilmiş ve geliştiriciler için daha güvenli bir JSON işleme sunulmuş.
+
+`Marshal` performansında çok bir değişiklik yok, ancak `Unmarshal` performansında önemli bir iyileştirme sağlanmış.
+
+![Benchmark](./assets/img/json_v1_v2_benchmark.png)
+
+`v2` yi kullanmak için `encoding/json/v2` paketi import edilmelidir.
+
+```go
+import "encoding/json/v2"
+```
+
+Eğer hâlâ 1.26 versiyonunu kullanıyorsanız, `encoding/json/v2` paketi import edilemez. Kullanabilmek için `GOEXPERIMENT=jsonv2` ortam değişkenini kullanmalısınız.
+
+## Marshal/Unmarshal Fonksiyon İmzaları
+
+Kullandığımız en temel fonksiyonlardan olan `Marshal` ve `Unmarshal` fonksiyonlarının imzalarında farklılıklar var. `v2`'de ek olarak options parametresi opsiyonel olarak alındığı için istersek eskisi gibi kullanmaya devam edebiliriz.
+
+```go title="encoding/json (eski)"
+func Marshal(v any) ([]byte, error)
+func Unmarshal(data []byte, v any) error
+```
+
+<br>
+
+```go title="encoding/json/v2 (yeni)"
+func Marshal(in any, opts ...Options) (out []byte, err error)
+func Unmarshal(in []byte, out any, opts ...Options) (err error)
+```
+
+`Options` parametresi kullanılarak varsayılan davranışları değiştirilebilir.
+
+Temel kullanımda bir fark yok.
+
+```go
+import "encoding/json/v2"
+
+type Course struct {
+	Title    string   `json:"title"`
+	Students int      `json:"students"`
+	Tags     []string `json:"tags"`
+}
+
+func main() {
+	c := Course{
+		Title:    "Go'ya Giriş",
+		Students: 12,
+		Tags:     []string{"go", "egitim"},
+	}
+
+	data, err := json.Marshal(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var out Course
+	if err := json.Unmarshal(data, &out); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+
+## Alan İsimlerinde Büyük/Küçük Harf Duyarlılığı
+
+v1'de json'dan struct'a okuma yapılırken json metindeki alan isimleri büyük/küçük harf duyarsız olarak kabul edilmiştir. v2'de varsayılan olarak böyle değildir.
+
+```json title="örnek json metin"
+{
+	"NAME": "Kaan"
+}
+```
+
+<br>
+
+```go title="encoding/json (eski)"
+type User struct {
+	Name string `json:"name"` // "Kaan" -> aynı olmamasına rağmen okuyor
+}
+```
+
+<br>
+
+```go title="encoding/json/v2 (yeni)"
+type User struct {
+	Name string `json:"name"` // "" -> aynı olmadığı için boş string
+}
+```
+
+Bu değişikliğin arkasında sadece "temizlik" değil, güvenlik kaygısı da var: büyük/küçük harf oyunları, bir servisin doğrulamasını atlatıp farklı yorumlayan başka bir servise veri kaçırmak için kullanılan bilinen tekniklerden. Eski davranışı geri istiyorsanız `MatchCaseInsensitiveNames(true)` seçeneği ya da alan bazında `case:ignore` etiketiyle isteğe bağlı olarak açabiliyorsunuz.
+
+```go
+err := json.Unmarshal([]byte(data), &out, json.MatchCaseInsensitiveNames(true))
+if err != nil {
+	log.Fatal(err)
+}
+```
+
+veya struct tag olarak
+
+```go
+type Body struct {
+	Name string `json:"name,case:ignore"`
+}
+```
+
+## Tekrarlayan Alan İsimleri
+
+v1 aynı alan isminde birden fazla varsa, değer olarak en sonuncusunu kabul eder. v2 ise okuma işleminde hata döndürür.
+
+```json
+{
+	"name": "Kaan",
+	"name": "Barış"
+}
+```
+
+v1'de `name` alanı `Barış` olarak okunurken, v2'de hata döndürür.
+
+```
+jsontext: duplicate object member name "name"
+```
+
+## nil Slice ve Map artık varsayılan `[]` ve `{}` olarak yazılıyor.
+
+Go ile yazılmış bir backende istek atan frontendçi json v1'de `map` ve `slice` alanları okurken `null` kontrolü yapması gerekiyordu. Halbukü frontendçi doğal olarak boş obje veya boş liste bekliyordu. Artık varsayılan olarak `[]` ve `{}` olarak yazılıyor.
+
+```go
+type Report struct {
+	Items  []string       `json:"items"`
+	Counts map[string]int `json:"counts"`
+}
+```
+
+<br>
+
+```json title="encoding/json (eski)"
+{
+	"items": null,
+	"counts": null
+}
+```
+
+<br>
+
+```json title="encoding/json/v2 (yeni)"
+{
+	"items": [],
+	"counts": {}
+}
+```
+
+Eğer bu tipteki alanların eskisi gibi `null` olarak yazılmasını istiyorsanız, struct tag olarak
+
+```go
+type Report struct {
+	Items  []string       `json:"items,emitnull"`
+	Counts map[string]int `json:"counts,emitnull"`
+}
+```
+
+ve `Option` olarak
+
+```go
+out, err := json.Marshal(
+	Report{},
+	json.FormatNilSliceAsNull(true),
+	json.FormatNilMapAsNull(true),
+)
+```
+
+## `omitzero` etiketi ile `time.Time`'daki `omitempty` hatasının çözümü
+
+`omitempty` ile `time.Time` alanlarını atlatmaya çalışıp da sıfır değerin _(`0001-01-01T00:00:00Z`)_ çıktıya sızdığını görmüş olabilirsiniz. Sebebi, `omitempty`'nin yalnızca JSON anlamında "boşluğa" bakması; zero value olan bir `time.Time` JSON açısından boş sayılmıyor.
+
+```go title="encoding/json (eski)"
+type Result struct {
+	Name		string		`json:"name"`
+	UpdatedAt	time.Time	`json:"updated_at,omitempty"`
+}
+```
+
+<br>
+
+```json title="Çıktı"
+{
+	"name": "Go Book",
+	"updated_at": "0001-01-01T00:00:00Z"
+}
+```
+
+`omitzero` etiket seçeneği bunun yerine sıfır değerine bakıyor ve `time.Time`'ın zaten sahip olduğu `IsZero()` metodunu dikkate alıyor:
+
+```go title="encoding/json/v2 (yeni)"
+type Result struct {
+	Name		string		`json:"name"`
+	UpdatedAt	time.Time	`json:"updated_at,omitzero"`
+}
+```
+
+<br>
+
+```json title="Çıktı"
+{
+	"name": "Go Book"
+}
+```
+
+## `io.Reader` / `io.Writer` ile doğrudan çalışmak
+
+Önceden `io.Reader` veya `io.Writer` ile çalışmak için `Encoder` veya `Decoder` oluşturucularını kullanıyorduk.
+
+```go title="encoding/json (eski)"
+json.NewDecoder(os.Stdin).Decode(&input)
+json.NewEncoder(os.Stdout).Encode(&output)
+```
+
+v2 ile beraber doğrudan kullanabileceğiniz iki yeni fonksiyon eklendi.
+
+```go title="encoding/json/v2 (yeni)"
+body := strings.NewReader(`{"id": 1234, "total": 49.99}`)
+
+var o Order
+json.UnmarshalRead(body, &o)
+
+json.MarshalWrite(os.Stdout, o)
+```
+
+## Bilinmeyen alanları reddetmek
+
+Yeni `RejectUnknownMembers(true)` seçeneğiyle, okunan JSON'da struct'ta karşılığı olmayan bir alan varsa bunu sessizce yok saymak yerine hata olarak dönebiliyorsunuz. Özellikle API'lerde yazım hatalarını _("nots" yerine "notes" gibi)_ erkenden yakalamak için kullanışlı.
+
+```go title="encoding/json/v2 (yeni)"
+type User struct {
+	Name string `json:"name"`
+}
+
+input := strings.NewReader(`{"name": "Kaan", "id": 99}`)
+
+var user User
+
+err := json.UnmarshalRead(input, &user, json.RejectUnknownMembers(true))
+if err != nil {
+	panic(err)
+}
+```
+
+<br>
+
+```
+panic: json: cannot unmarshal JSON string into Go main.User: unknown object member name "id"
+```
