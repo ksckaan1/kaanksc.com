@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ripple } from "svelte-ripple-action";
 	import type { Data } from "$lib/models/types";
 	import { formatDate } from "../../../utils/format";
 	import { getAuthorInfo } from "../../../utils/author";
@@ -37,13 +36,9 @@
 </svelte:head>
 
 <!-- POST HEADER -->
-<div
-	class="w-full gridbg border-b border-white/20 py-5 text-primary"
-	use:ripple
->
+<div class="w-full gridbg border-b border-white/20 py-5 text-primary">
 	<div class="max-w-5xl w-full px-5 mx-auto">
 		<a
-			use:ripple
 			class="text-primary self-start rounded font-light text-4xl"
 			href="/blog/"
 		>
@@ -81,7 +76,6 @@
 			href={author?.link}
 			class="flex gap-x-5 text-primary border w-full border-white/20 p-5 rounded items-center"
 			target="_blank"
-			use:ripple
 		>
 			<img
 				src={author?.avatar_url}

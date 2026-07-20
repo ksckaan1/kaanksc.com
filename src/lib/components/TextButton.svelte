@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import { ripple } from "svelte-ripple-action";
 
 	interface Props {
 		variant?: "primary";
@@ -19,7 +18,6 @@
 
 <button
 	{onclick}
-	use:ripple
 	class="text-primary rounded px-4 py-2"
 	class:opacity-30={disabled}
 	{disabled}
