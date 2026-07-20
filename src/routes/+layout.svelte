@@ -3,9 +3,7 @@
 	import Header from "$lib/parts/Header.svelte";
 	import { fly } from "svelte/transition";
 	import "../app.css";
-	import "svelte-ripple-action/ripple.css";
 	import Icon from "@iconify/svelte";
-	import { ripple } from "svelte-ripple-action";
 	import Footer from "$lib/parts/Footer.svelte";
 
 	let { children } = $props();
