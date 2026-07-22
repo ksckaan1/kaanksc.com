@@ -234,7 +234,7 @@ json.UnmarshalRead(body, &o)
 json.MarshalWrite(os.Stdout, o)
 ```
 
-## Bilinmeyen alanları reddetmek
+## Tanımlanmayan alanları reddetmek
 
 Yeni `RejectUnknownMembers(true)` seçeneğiyle, okunan JSON'da struct'ta karşılığı olmayan bir alan varsa bunu sessizce yok saymak yerine hata olarak dönebiliyorsunuz. Özellikle API'lerde yazım hatalarını _("nots" yerine "notes" gibi)_ erkenden yakalamak için kullanışlı.
 
@@ -258,3 +258,152 @@ if err != nil {
 ```
 panic: json: cannot unmarshal JSON string into Go main.User: unknown object member name "id"
 ```
+
+## Tanımlanmayan alanları okumak
+
+v2 ile beraber girdi olarak tanımlanmamış bir json alanını okuyabilmek için yeni `unknown` struct tag'i eklendi.
+
+```go title="encoding/json/v2 (yeni)"
+type Payload struct {
+	ID   int            `json:"id"`
+	Data map[string]any `json:",unknown"`
+}
+```
+
+Yukarıdaki örnekte tanımlanmamış tüm json alanları `Data` map'ine eklenir.
+
+## `string` struct etiketi
+
+Aslında bu etiket v1'de vardı fakat kullanım değişikliğine gidildi. v1'de eklendiği alanları string'e çeviriyordu.
+
+```go
+type Payload struct {
+	ID      int    `json:"id,string"`
+	Name    string `json:"name,string"`
+	IsAdult bool   `json:"is_adult,string"`
+}
+```
+
+<br>
+
+```json title="v1 çıktısı"
+{
+	"id": "50",
+	"name": "\"Kaan\"",
+	"is_adult": "true"
+}
+```
+
+v2'de sadece sayısal alanları string'e çevirir. Diğer tür olan alanlara eklense bile görmezden gelinir.
+
+```json title="v2 çıktısı"
+{
+	"id": "50",
+	"name": "Kaan",
+	"is_adult": true
+}
+```
+
+Eğer sayıları otomatik olarak string'e çevirmek istersek, bunun için bir Option kullanabiliriz.
+
+```go title="v2"
+err := json.MarshalWrite(
+	os.Stdout, p,
+	json.StringifyNumbers(true),
+)
+```
+
+## `inline` struct etiketi
+
+Bu etiket v2'de yeni eklendi. v1'de nested olan bir struct'ın alanlarını nested olmayan bir json halinde çıktı almak için embedding (gömme) yapmak zorundaydık.
+
+```go title="v1'de struct inline etme"
+type Address struct {
+	Street string `json:"street"`
+	City   string `json:"city"`
+}
+
+type Person struct {
+	Name string `json:"name"`
+	Address
+}
+```
+
+Böyle bir struct'ın json çıktısı aşağıdaki gibi oluyor.
+
+```json title="v1 çıktısı"
+{
+	"name": "Kaan",
+	"street": "ABC 123",
+	"city": "Balıkesir"
+}
+```
+
+v2 itibarıyla `inline` etiketi ile embedding yapmasak bile struct'ı tek bir json nesnesinde çıktı alabiliriz.
+
+```go title="v2'de inline etiketi ile struct inline etme"
+type Person struct {
+	Name string `json:"name"`
+	Address Address `json:",inline"` // <------
+}
+```
+
+## `format` struct etiketi
+
+v2'nin belki de en can alıcı özelliklerinden biri olan bu etiket, alanların okunur veya yazılrken nasıl formatlanacağını belirliyor.
+
+`[]byte` türü için varsayılan format `base64`'tür.
+
+```go title="v2"
+type Response struct {
+	ValueBase64 []byte `json:"value_base64,format:base64"`
+	ValueHex    [8]byte `json:"value_hex,format:hex"`
+	ValueArray  []byte	`json:"value_array,format:array"`
+}
+```
+
+float türünden `NaN` parse edebilmek için `nonfinite` etiketi kullanılabilir.
+
+```go title="v2"
+type Response struct {
+	ValueNan    float64 `json:"value_nan,format:nonfinite"`
+}
+```
+
+Boş slice ve map'in çıktısı eskisi gibi `null` olsun istiyorsak `format:emitnull` kullanabiliriz. `omitempty` ile aynı mantıkta çalışıyor.
+
+`time.Time` ve `time.Duration` türleriyle kullanabileceğimiz formatlama yöntemleri aşağıdaki gibi,
+
+```go title="v2"
+type Response struct {
+	TimeDateOnly    time.Time      `json:",format:'2006-01-02'"` // "2000-01-01"
+	TimeUnixSec     time.Time      `json:",format:unix"` // 946684800
+	DurationSecs    time.Duration  `json:",format:sec"` // 45296.007008009
+	DurationNanos   time.Duration  `json:",format:nano"` // 45296007008009
+	DurationISO8601 time.Duration  `json:",format:iso8601"` // "PT12H34M56.007008009S"
+}
+```
+
+## `time.Duration` için format belirtme zorunluluğu
+
+v2'de `time.Duration` türünde bir alanı varsayılan olarak parse edemiyoruz. Format belirtmemiz gerekiyor.
+
+```go title="v2"
+type Response struct {
+	Took time.Duration `json:"took"`
+}
+```
+
+Hata verir:
+
+```
+json: cannot marshal from Go time.Duration within "/took": no default representation (see https://go.dev/issue/71631); specify an explicit format
+```
+
+v1'de varsayılan olarak nanosaniye cinsinden parse ediliyordu. Fakat json çıktısına bakıldığında nanosaniye cinsinden olduğuna dair hiçbir bilgi yoktu. Bu da json çıktısı okunacak olduğunda başka bir programlama dili kullanılıyorsa o dilin standardı farklı olabileceği anlamına geliyor.
+
+Örneğin JavaScript'te eğer bir milyona bölmeden direkt olarak kullanılırsa yanlış bir sonuç elde edilir. Veriyi ullanacak tarafın ek bir dikkat göstermesi gerekiyordu yani.
+
+v2'de bu alan tipin varsayılan bir gösterimi bulunmadığı için format belirtmemiz gerekiyor.
+
+Diğer birimlere çevirmek için `sec`, `milli`, `micro` ve `nano` formatları kullanılabilir. String olarak formatlamak için ise `units` _(örneğin 1h30m)_ ve `iso8601` _(örneğin PT1H30M)_ formatları kullanılabilir.
