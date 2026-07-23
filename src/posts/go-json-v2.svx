@@ -589,7 +589,7 @@ Response{Name: "Kaan", IsAdult: true}
 
 ## Özetle
 
-`encoding/json/v2`, on beş yıldır alışkın olduğumuz ama aslında hep sorunlu bulduğumuz birçok davranışı düzeltiyor: büyük/küçük harf duyarsız eşleşme ve tekrarlanan anahtarlar artık hata veriyor, nil slice/map'ler null yerine `[]`/`{}` basılıyor, `omitzero` ile `time.Time` sorunu çözülüyor, `time.Duration` artık örtük bir varsayıma güvenmek yerine açık format istiyor. Bunların yanında `inline`, `unknown`, `format` gibi yeni struct etiketleri ve generic `MarshalFunc/UnmarshalFunc` ile daha esnek, daha güvenli bir API geliyor. En güzel kısmı ise mevcut kodunuzun kırılmadan çalışmaya devam etmesi — v1 hâlâ destekleniyor, siz kendi hızınızda geçiş yapabiliyorsunuz. Zaten bu güncelleme ile v1 arkaplanda v2'yi kullanıyor.
+`encoding/json/v2`, on beş yıldır alışkın olduğumuz ama aslında hep sorunlu bulduğumuz birçok davranışı düzeltiyor: büyük/küçük harf duyarsız eşleşme ve tekrarlanan anahtarlar artık hata veriyor, nil slice/map'ler null yerine `[]`/`{}` basılıyor, `omitzero` ile `time.Time` sorunu çözülüyor, `time.Duration` artık örtük bir varsayıma güvenmek yerine açık format istiyor. Bunların yanında `inline`, `unknown`, `format` gibi yeni struct etiketleri ve generic `MarshalFunc/UnmarshalFunc` ile daha esnek, daha güvenli bir API geliyor. En güzel kısmı ise mevcut kodunuzun kırılmadan çalışmaya devam etmesi. v1 hâlâ destekleniyor,zaten bu güncelleme ile v1 arkaplanda v2'yi kullanıyor.
 
 Kısacası: yeni projelerde denemeye değer, eski projelerde acele etmeye gerek yok.
 
