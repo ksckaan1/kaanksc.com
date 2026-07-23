@@ -36,7 +36,9 @@
 </svelte:head>
 
 <!-- POST HEADER -->
-<div class="w-full gridbg border-b border-white/20 py-5 text-primary relative">
+<div
+	class="w-full gridbg border-b border-white/20 py-5 text-primary relative overflow-x-hidden"
+>
 	<div class="max-w-5xl w-full px-5 mx-auto">
 		<a
 			class="text-primary self-start rounded font-light text-4xl"
