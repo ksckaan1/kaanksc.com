@@ -598,3 +598,9 @@ Kısacası: yeni projelerde denemeye değer, eski projelerde acele etmeye gerek 
 Bu yazıyı hazırlarken en çok `time.Duration` kısmında format belirtme zorunluluğu şaşırttı beni. Küçük ama gerçekten isabetli bir karar.
 
 Okuduğunuz için teşekkürler, bir sonraki yazıda görüşmek üzere! 👋
+
+## Kaynaklar
+
+- https://pkg.go.dev/encoding/json/v2
+- https://go.dev/blog/jsonv2-exp
+- https://pkg.go.dev/github.com/go-json-experiment/json
