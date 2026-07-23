@@ -1,7 +1,7 @@
 ---
 title: Go JSON V2 yenilikler ve değişiklikler
 description: Bu yazıda Go'nun yeni JSON paketinin nasıl çalıştığını ve yapılan değişiklikleri anlattım.
-date: "2026-07-19"
+date: "2026-07-23"
 tags: ["go", "json", "v2"]
 authors: ["ksckaan1"]
 published: false
