@@ -14,12 +14,12 @@
 			link: "https://x.com/ksckaan1",
 			icon: "line-md:twitter-x",
 		},
-		{
-			title: "Instagram",
-			subtitle: "ksckaan1",
-			link: "https://instagram.com/ksckaan1",
-			icon: "line-md:instagram",
-		},
+		// {
+		// 	title: "Instagram",
+		// 	subtitle: "ksckaan1",
+		// 	link: "https://instagram.com/ksckaan1",
+		// 	icon: "line-md:instagram",
+		// },
 		{
 			title: "Reddit",
 			subtitle: "ksckaan1",
