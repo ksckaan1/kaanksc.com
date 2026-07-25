@@ -4,7 +4,7 @@ description: Bu yazıda Go'nun yeni JSON paketinin nasıl çalıştığını ve 
 date: "2026-07-23"
 tags: ["go", "json", "v2"]
 authors: ["ksckaan1"]
-published: false
+published: true
 ---
 
 Hepimizin Go'da en çok kullandığı paketlerden biri olan `encoding/json` paketinin yeni versiyonu olarak yayınlanan `encoding/json/v2`, Go'nun 1.27 versiyonunda varsayılan olarak standart paket olarak geliyor.
