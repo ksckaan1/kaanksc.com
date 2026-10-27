@@ -3,9 +3,8 @@
 	import { getRepositories } from "../../utils/github";
 	import type { IRepo } from "$lib/models/github";
 	import Loading from "$lib/components/Loading.svelte";
+	import Icon from "@iconify/svelte";
 	import externalIcon from "$lib/img/icons/external.svg";
-	import forkIcon from "$lib/img/icons/fork.svg";
-	import starIcon from "$lib/img/icons/star.svg";
 
 	const showcase = [
 		{
@@ -19,6 +18,14 @@
 					url: "https://github.com/ksckaan1/google-go-style-guide-tr",
 					icon: externalIcon,
 					tags: ["Go"],
+				},
+				{
+					title: "Google Rust Stil Rehberi",
+					description:
+						"Google'ın hazırlamış olduğu Rust programlama dili stil rehberinin Türkçe çevirisi",
+					url: "https://github.com/ksckaan1/google-rust-style-guide-tr",
+					icon: externalIcon,
+					tags: ["Rust"],
 				},
 				{
 					title: "Uber Go Stil Rehberi",
@@ -219,6 +226,28 @@
 					tags: ["Go"],
 				},
 				{
+					title: "servicemaker",
+					description:
+						"Ortam değişkeni tabanlı konfigürasyonla servis yaşam döngüsünü (init, run, close, health check) yöneten Go kütüphanesi",
+					icon: externalIcon,
+					url: "https://github.com/ksckaan1/servicemaker",
+					tags: ["Go"],
+				},
+				{
+					title: "fibergh",
+					description: "Fiber v3 için generic handler desteği",
+					icon: externalIcon,
+					url: "https://github.com/ksckaan1/fibergh",
+					tags: ["Go", "Fiber"],
+				},
+				{
+					title: "standardgh",
+					description: "net/http için generic handler desteği",
+					icon: externalIcon,
+					url: "https://github.com/ksckaan1/standardgh",
+					tags: ["Go"],
+				},
+				{
 					title: "m2s",
 					description:
 						"Go programlama dili için Multipart Form Data'yı struct'a parse eden paket",
@@ -269,34 +298,30 @@
 	/>
 </svelte:head>
 
-<div class="max-w-5xl mx-auto p-5">
-	<div class="section-title">PROJELER</div>
+<div class="mx-auto max-w-5xl px-4 py-8">
+	<h1 class="section-title">Projeler</h1>
 
 	{#each showcase as cat}
-		<div class="mt-8">
-			<h2 class="text-xl text-primary font-bold mb-4">{cat.name}</h2>
+		<div class="mt-10">
+			<h2 class="mb-4 text-xl font-semibold text-on-surface">{cat.name}</h2>
 			<div class="doc-grid">
 				{#each cat.items as item}
-					<a
-						target="_blank"
-						href={item.url}
-						class="doc-card gridbg group"
-					>
+					<a target="_blank" href={item.url} class="doc-card group">
 						<div class="flex items-start justify-between gap-3">
-							<h3 class="text-lg text-slate-200 font-medium leading-snug">
+							<h3 class="text-lg font-semibold leading-snug text-on-surface">
 								{item.title}
 							</h3>
-							<img
-								src={item.icon}
-								alt=""
-								class="w-5 h-5 shrink-0 mt-1 opacity-40 group-hover:opacity-100 transition-opacity"
+							<Icon
+								icon="octicon:link-external-16"
+								width="20"
+								class="mt-1 shrink-0 text-on-surface-variant transition-colors group-hover:text-primary"
 							/>
 						</div>
-						<p class="text-white/50 text-sm mt-2 leading-relaxed">
+						<p class="mt-2 text-sm leading-relaxed text-on-surface-variant">
 							{item.description}
 						</p>
 						{#if item.tags}
-							<div class="flex flex-wrap gap-2 mt-4">
+							<div class="mt-4 flex flex-wrap gap-2">
 								{#each item.tags as tag}
 									<span class="tag">{tag}</span>
 								{/each}
@@ -308,46 +333,42 @@
 		</div>
 	{/each}
 
-	<div class="mt-8">
+	<div class="mt-10">
 		{#if isReposLoaded && repos.length !== 0}
-			<h2 class="text-xl text-primary font-bold mb-4">GitHub</h2>
+			<h2 class="mb-4 text-xl font-semibold text-on-surface">GitHub</h2>
 			<div class="doc-grid">
 				{#each repos as repo}
-					<a
-						target="_blank"
-						href={repo.html_url}
-						class="doc-card gridbg group"
-					>
+					<a target="_blank" href={repo.html_url} class="doc-card group">
 						<div class="flex items-start justify-between gap-3">
-							<h3 class="text-lg text-slate-200 font-medium leading-snug">
+							<h3 class="text-lg font-semibold leading-snug text-on-surface">
 								{repo.name}
 							</h3>
-							<img
-								src={externalIcon}
-								alt=""
-								class="w-5 h-5 shrink-0 mt-1 opacity-40 group-hover:opacity-100 transition-opacity"
+							<Icon
+								icon="octicon:link-external-16"
+								width="20"
+								class="mt-1 shrink-0 text-on-surface-variant transition-colors group-hover:text-primary"
 							/>
 						</div>
-						<p class="text-white/50 text-sm mt-2 leading-relaxed">
+						<p class="mt-2 text-sm leading-relaxed text-on-surface-variant">
 							{repo.description || "Açıklama yok"}
 						</p>
-						<div class="flex gap-4 mt-4">
-							<div class="flex items-center gap-1.5">
-								<img src={starIcon} class="h-4" alt="" />
-								<span class="text-sm text-white/60">{repo.stargazers_count}</span>
+						<div class="mt-4 flex gap-4">
+							<div class="flex items-center gap-1.5 text-on-surface-variant">
+								<Icon icon="octicon:star-16" width="16" />
+								<span class="text-sm">{repo.stargazers_count}</span>
 							</div>
-							<div class="flex items-center gap-1.5">
-								<img src={forkIcon} class="h-4" alt="" />
-								<span class="text-sm text-white/60">{repo.forks}</span>
+							<div class="flex items-center gap-1.5 text-on-surface-variant">
+								<Icon icon="octicon:repo-forked-16" width="16" />
+								<span class="text-sm">{repo.forks}</span>
 							</div>
 						</div>
 					</a>
 				{/each}
 			</div>
 		{:else if isReposLoaded && repos.length === 0}
-			Repo bulunamadı
+			<p class="text-on-surface-variant">Repo bulunamadı</p>
 		{:else}
-			<div class="flex justify-center items-center">
+			<div class="flex items-center justify-center py-10">
 				<Loading />
 			</div>
 		{/if}
@@ -360,12 +381,12 @@
 	}
 
 	.doc-card {
-		@apply border border-white/20 rounded-lg p-5
-		       hover:border-primary/40 transition-colors;
+		@apply flex flex-col rounded-3xl bg-surface-container p-5
+		       transition-colors hover:bg-surface-container-high;
 	}
 
 	.tag {
-		@apply text-xs font-medium px-2.5 py-0.5 rounded-full
-		       bg-primary/15 text-primary border border-primary/25;
+		@apply text-xs font-medium px-3 py-1 rounded-full
+		       bg-secondary-container text-on-secondary-container;
 	}
 </style>

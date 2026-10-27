@@ -1,10 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
 
 <head>
 	<meta charset="utf-8" />
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="color-scheme" content="light dark" />
+	<script>
+		try {
+			const stored = localStorage.getItem("theme");
+			if (stored === "dark" || (stored !== "light" && matchMedia("(prefers-color-scheme: dark)").matches)) {
+				document.documentElement.classList.add("dark");
+			}
+		} catch {}
+	</script>
 	%sveltekit.head%
 	<!-- 100% privacy-first analytics -->
 	<scriptasyncdefersrc="https: //scripts.simpleanalyticscdn.com/latest.js">

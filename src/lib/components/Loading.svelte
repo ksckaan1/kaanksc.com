@@ -1,17 +1,11 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import loadingIcon from "$lib/img/icons/loading.png";
 </script>
 
-<img
-    alt=""
+<div
     in:fade={{ duration: 200, delay: 200 }}
     out:fade={{ duration: 200 }}
-    src={loadingIcon}
-/>
-
-<style>
-    img {
-        @apply w-16 animate-spin;
-    }
-</style>
+    class="size-12 animate-spin rounded-full border-4 border-surface-container-highest border-t-primary"
+    role="status"
+    aria-label="Yükleniyor"
+></div>

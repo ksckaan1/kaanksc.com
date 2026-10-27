@@ -7,7 +7,7 @@
 </script>
 
 <div
-    class="w-full rounded-lg border border-white/20 flex flex-col gap-y-5 justify-center items-center py-10 bg-black/20"
+    class="flex w-full flex-col items-center justify-center gap-y-5 rounded-3xl border border-outline-variant/50 bg-surface-container py-10"
 >
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (Just because i)  -->
 
@@ -37,10 +37,9 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        color: white;
         width: 100%;
         height: 100%;
-        border-radius: 10px;
+        border-radius: 24px;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         transition: transform 0.5s linear;
@@ -48,12 +47,14 @@
     }
 
     .backFace {
-        background-color: blue;
+        background-color: rgb(var(--md-tertiary));
+        color: rgb(var(--md-on-tertiary));
         transform: rotateY(180deg);
     }
 
     .frontFace {
-        background-color: green;
+        background-color: rgb(var(--md-primary));
+        color: rgb(var(--md-on-primary));
         transform: rotateY(0deg);
     }
 

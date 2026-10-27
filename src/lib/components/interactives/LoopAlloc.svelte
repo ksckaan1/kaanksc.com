@@ -25,14 +25,14 @@
     }
 </script>
 
-<div class="w-full bg-black/10 rounded-lg border border-white/20 p-5 text-sm lg:text-base">
+<div class="w-full bg-surface-container border border-outline-variant/50 rounded-3xl p-5 text-sm lg:text-base">
     <div class="mb-5 flex gap-x-1 items-center">
         <input type="checkbox" id="activateEnv" bind:checked={activateEnv}>
         <label for="activateEnv"><code>GOEXPERIMENT=loopvar</code> kullan</label>
     </div>
-    <div class="mb-5 text-kYellow">*Aynı renkler aynı bellek adreslerini temsil eder</div>
-    <div class="mt-3 flex flex-col gap-y-1 bg-white/5 p-3 rounded border border-white/20">
-        <span class="text-white/50 font-bold"> cities</span>
+    <div class="mb-5 text-primary">*Aynı renkler aynı bellek adreslerini temsil eder</div>
+    <div class="mt-3 flex flex-col gap-y-1 bg-surface-container-high p-3 rounded-2xl border border-outline-variant/50">
+        <span class="text-on-surface-variant font-bold"> cities</span>
         <div class="flex gap-x-1 items-center">
             <div class="var bg-red-700">"İstanbul"</div>
             <div class="var bg-green-700">"Ankara"</div>
@@ -41,8 +41,8 @@
         </div>
     </div>
 
-    <div class="mt-3 p-3 bg-white/5 rounded border border-white/20">
-        <div class="text-white/50 font-bold">Döngü</div>
+    <div class="mt-3 p-3 bg-surface-container-high rounded-2xl border border-outline-variant/50">
+        <div class="text-on-surface-variant font-bold">Döngü</div>
         <div>
             <button on:click={stepBack} disabled={step<1} class="btn">önceki adım</button>
             <button on:click={stepNext} disabled={step>2} class="btn">sonraki adım</button>
@@ -63,7 +63,7 @@
                      class:bg-sky-700={activateEnv&&step===3}
                 >v = "{cities[step]}"
                 </div>
-                <div class="">:= range <span class="underline text-p">cities </span>&#x7B;</div>
+                <div class="">:= range <span class="underline text-primary">cities </span>&#x7B;</div>
             </div>
             <div class="flex gap-x-1 items-center mt-3">
                 <span>cityPtrs = append(cityPtrs,</span>
@@ -81,8 +81,8 @@
         </div>
     </div>
 
-    <div class="mt-3 flex flex-col gap-y-1 bg-white/5 p-3 rounded border border-white/20">
-        <span class="text-white/50 font-bold">cityPtrs</span>
+    <div class="mt-3 flex flex-col gap-y-1 bg-surface-container-high p-3 rounded-2xl border border-outline-variant/50">
+        <span class="text-on-surface-variant font-bold">cityPtrs</span>
         <div class=" flex gap-x-1 items-center">
             {#each cityList as city,i}
                 <div class="var"
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <div class="text-kYellow mt-3">*Listeye eklenen her eleman v'nin adresindeki değere eşittir</div>
+    <div class="text-primary mt-3">*Listeye eklenen her eleman v'nin adresindeki değere eşittir</div>
 </div>
 
 <style lang="postcss">
@@ -106,7 +106,7 @@
     }
 
     .btn {
-        @apply bg-white/20 rounded px-1 py-0.5 border border-white/20
+        @apply bg-secondary-container text-on-secondary-container rounded-full px-2 py-0.5 border border-outline-variant/50
     }
 
     .btn:disabled {

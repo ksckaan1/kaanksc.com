@@ -18,7 +18,7 @@
 
 <button
 	{onclick}
-	class="text-primary rounded px-4 py-2"
+	class="rounded-full px-4 py-2 text-primary transition-colors hover:bg-primary/10"
 	class:opacity-30={disabled}
 	{disabled}
 >

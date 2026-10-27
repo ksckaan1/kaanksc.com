@@ -11,11 +11,21 @@
 
 <a
 	href="/blog/{post.slug}"
-	class="p-3 border border-white/20 text-primary rounded gridbg"
+	class="group flex flex-col gap-2 rounded-3xl bg-surface-container p-5 transition-colors hover:bg-surface-container-high"
 >
-	<h2 class="text-primary text-xl font-light">{post.title}</h2>
-	<p class="text-white/60 font-light">{formatDate(post.date)}</p>
-	<p class="text-white/80 font-light">
-		{post.tags.map((t) => "#" + t).join(" ")}
-	</p>
+	<h2
+		class="text-xl font-semibold text-on-surface transition-colors group-hover:text-primary"
+	>
+		{post.title}
+	</h2>
+	<p class="text-sm text-on-surface-variant">{formatDate(post.date)}</p>
+	<div class="mt-auto flex flex-wrap gap-2 pt-2">
+		{#each post.tags as tag}
+			<span
+				class="rounded-full bg-secondary-container px-3 py-1 text-xs font-medium text-on-secondary-container"
+			>
+				#{tag}
+			</span>
+		{/each}
+	</div>
 </a>

@@ -2,28 +2,154 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
-body {
-	@apply font-poppins bg-black text-slate-300 scrollbar scrollbar-thumb-primary scrollbar-track-black;
+/* Material 3 color roles - light */
+:root {
+	color-scheme: light;
+
+	--md-primary: 103 80 164;
+	--md-on-primary: 255 255 255;
+	--md-primary-container: 234 221 255;
+	--md-on-primary-container: 33 0 93;
+
+	--md-secondary: 98 91 113;
+	--md-on-secondary: 255 255 255;
+	--md-secondary-container: 232 222 248;
+	--md-on-secondary-container: 29 25 43;
+
+	--md-tertiary: 125 82 96;
+	--md-on-tertiary: 255 255 255;
+	--md-tertiary-container: 255 216 228;
+	--md-on-tertiary-container: 49 17 29;
+
+	--md-error: 179 38 30;
+	--md-on-error: 255 255 255;
+	--md-error-container: 249 222 220;
+	--md-on-error-container: 65 14 11;
+
+	--md-surface: 254 247 255;
+	--md-on-surface: 29 27 32;
+	--md-surface-variant: 231 224 236;
+	--md-on-surface-variant: 73 69 79;
+	--md-surface-container-lowest: 255 255 255;
+	--md-surface-container-low: 247 242 250;
+	--md-surface-container: 243 237 247;
+	--md-surface-container-high: 236 230 240;
+	--md-surface-container-highest: 230 224 233;
+
+	--md-outline: 121 116 126;
+	--md-outline-variant: 202 196 208;
+	--md-inverse-surface: 49 48 51;
+	--md-inverse-on-surface: 244 239 244;
+	--md-inverse-primary: 208 188 255;
 }
 
-.gridbg {
-	background-image:
-		linear-gradient(to right, #ececec18 1px, transparent 1px),
-		linear-gradient(to bottom, #ececec18 1px, transparent 1px);
-	background-size: 16px 16px;
+/* Material 3 color roles - dark */
+.dark {
+	color-scheme: dark;
+
+	--md-primary: 208 188 255;
+	--md-on-primary: 56 30 114;
+	--md-primary-container: 79 55 139;
+	--md-on-primary-container: 234 221 255;
+
+	--md-secondary: 204 194 220;
+	--md-on-secondary: 51 45 65;
+	--md-secondary-container: 74 68 88;
+	--md-on-secondary-container: 232 222 248;
+
+	--md-tertiary: 239 184 200;
+	--md-on-tertiary: 73 37 50;
+	--md-tertiary-container: 99 59 72;
+	--md-on-tertiary-container: 255 216 228;
+
+	--md-error: 242 184 181;
+	--md-on-error: 96 20 16;
+	--md-error-container: 140 29 24;
+	--md-on-error-container: 249 222 220;
+
+	--md-surface: 20 18 24;
+	--md-on-surface: 230 224 233;
+	--md-surface-variant: 73 69 79;
+	--md-on-surface-variant: 202 196 208;
+	--md-surface-container-lowest: 15 13 19;
+	--md-surface-container-low: 29 27 32;
+	--md-surface-container: 33 31 38;
+	--md-surface-container-high: 43 41 48;
+	--md-surface-container-highest: 54 52 59;
+
+	--md-outline: 147 143 153;
+	--md-outline-variant: 73 69 79;
+	--md-inverse-surface: 230 224 233;
+	--md-inverse-on-surface: 49 48 51;
+	--md-inverse-primary: 103 80 164;
+}
+
+body {
+	@apply font-sans bg-surface text-on-surface antialiased scrollbar scrollbar-thumb-primary/40 scrollbar-track-transparent;
+}
+
+::selection {
+	@apply bg-primary/25 text-on-surface;
+}
+
+/* Delegated ripple layer, see $lib/ripple.ts */
+.ripple {
+	position: absolute;
+	border-radius: 9999px;
+	background: currentColor;
+	opacity: 0.18;
+	pointer-events: none;
+	transform: scale(0);
+	animation: ripple 500ms ease-out forwards;
+}
+
+@keyframes ripple {
+	to {
+		transform: scale(1);
+		opacity: 0;
+	}
 }
 
 .section-title {
-	@apply text-black text-4xl sm:text-6xl font-black tracking-widest;
-	-webkit-text-stroke: 1px rgb(245 179 47);
+	@apply text-balance text-4xl font-black tracking-tight text-on-surface sm:text-5xl;
 }
 
 /* POST STYLES */
 
+.prose {
+	--tw-prose-body: rgb(var(--md-on-surface-variant));
+	--tw-prose-headings: rgb(var(--md-on-surface));
+	--tw-prose-lead: rgb(var(--md-on-surface-variant));
+	--tw-prose-links: rgb(var(--md-primary));
+	--tw-prose-bold: rgb(var(--md-on-surface));
+	--tw-prose-counters: rgb(var(--md-primary));
+	--tw-prose-bullets: rgb(var(--md-outline));
+	--tw-prose-hr: rgb(var(--md-outline-variant));
+	--tw-prose-quotes: rgb(var(--md-on-surface));
+	--tw-prose-quote-borders: rgb(var(--md-primary));
+	--tw-prose-captions: rgb(var(--md-on-surface-variant));
+	--tw-prose-code: rgb(var(--md-on-surface));
+	--tw-prose-pre-code: rgb(var(--md-on-surface));
+	--tw-prose-pre-bg: transparent;
+	--tw-prose-th-borders: rgb(var(--md-outline-variant));
+	--tw-prose-td-borders: rgb(var(--md-outline-variant));
+}
+
 .prose code:not(pre code) {
-	@apply py-0.5 px-1.5 bg-white/10 rounded font-light text-primary mr-1 before:hidden after:hidden;
+	@apply mr-1 rounded-lg bg-surface-container-high px-1.5 py-0.5 font-normal text-primary before:hidden after:hidden;
+}
+
+/* Shiki emits both themes per token; each mode picks its own. */
+.prose pre code,
+.prose pre code span {
+	color: var(--shiki-light);
+}
+
+.dark .prose pre code,
+.dark .prose pre code span {
+	color: var(--shiki-dark);
 }
 
 .prose blockquote {
@@ -34,41 +160,28 @@ body {
 	@apply text-primary;
 }
 
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-	@apply text-slate-200 font-normal;
-}
-
-.prose p {
-	@apply text-white/75;
-}
-
 .prose > p > img {
-	@apply rounded border border-white/20;
+	@apply rounded-3xl border border-outline-variant/50;
 }
 
 .hint {
-	@apply z-0 rounded border border-white/20 p-3.5 pl-14 bg-no-repeat bg-[length:1.5rem];
+	@apply z-0 rounded-2xl border border-outline-variant/50 bg-surface-container bg-[length:1.5rem] bg-no-repeat p-4 pl-14;
 	background-position: 1rem 1rem;
 }
 
 .hint.warn {
-	@apply bg-orange-600/50 text-white bg-[url('/img/warning-hint.png')];
+	@apply bg-tertiary-container text-on-tertiary-container bg-[url('/img/warning-hint.png')];
 }
 
 .hint.error {
-	@apply bg-red-600/50 text-white bg-[url('/img/danger-hint.png')];
+	@apply bg-error-container text-on-error-container bg-[url('/img/danger-hint.png')];
 }
 
 .hint.tip {
-	@apply bg-sky-600/50 text-white bg-[url('/img/info-hint.png')];
+	@apply bg-secondary-container text-on-secondary-container bg-[url('/img/info-hint.png')];
 }
 
 /* mermaid doc */
 div:has(> svg[role="graphics-document document"]) {
-	@apply flex justify-center items-center bg-[#1B2026] rounded border border-white/20;
+	@apply flex items-center justify-center rounded-2xl border border-outline-variant/50 bg-[#1B2026];
 }

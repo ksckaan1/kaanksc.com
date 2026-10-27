@@ -27,11 +27,19 @@
 	});
 </script>
 
-<div class="flex flex-col gap-5">
-	<h1 class="section-title !text-3xl">SON 5 YAZI</h1>
-	<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-4">
+	<div class="flex items-baseline justify-between gap-4">
+		<h1 class="section-title">Son {limit} Yazı</h1>
+		<a
+			href="/blog/"
+			class="shrink-0 rounded-full bg-secondary-container px-4 py-2 text-sm font-medium text-on-secondary-container transition-colors hover:bg-primary-container hover:text-on-primary-container"
+		>
+			Tümü
+		</a>
+	</div>
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 		{#if !isLoaded || !isLoadingAnimationEnded}
-			{#each Array(5) as a}
+			{#each Array(limit) as _}
 				<SkeletonPostCard />
 			{/each}
 		{:else}
@@ -39,13 +47,5 @@
 				<PostCard {post} />
 			{/each}
 		{/if}
-		<a
-			href="/blog/"
-			class="border flex justify-center p-5 items-center bg-white/5 border-white/20 text-primary rounded"
-		>
-			<h2 class="text-primary text-xl font-light">
-				Tüm yazıları gör &rightarrow;
-			</h2>
-		</a>
 	</div>
 </div>

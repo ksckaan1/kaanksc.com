@@ -1,5 +1,5 @@
 <script lang="ts">
-    import externalIcon from "$lib/img/icons/external.svg";
+    import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
 
     export let href: string = "";
@@ -16,7 +16,7 @@
 </script>
 
 <a
-    class="inline-flex gap-x-1 items-center h-4"
+    class="inline-flex items-center gap-x-1"
     {href}
     target={isExternal ? "_blank" : "_self"}
 >
@@ -24,6 +24,6 @@
         <slot />
     </span>
     {#if isExternal}
-        <img src={externalIcon} alt="external" />
+        <Icon icon="octicon:link-external-16" width="14" />
     {/if}
 </a>

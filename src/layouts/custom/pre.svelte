@@ -29,9 +29,11 @@
 
 	onMount(async () => {
 		if (browser) {
+			// Both themes are emitted; CSS picks one via --shiki-light / --shiki-dark.
 			let out = await codeToHtml(unescape(code), {
 				lang: lang,
-				theme: "github-dark",
+				themes: { light: "github-light", dark: "github-dark" },
+				defaultColor: false,
 				transformers: [transformerNotationDiff(), transformerMetaHighlight()],
 			});
 
@@ -54,10 +56,13 @@
 	};
 </script>
 
-<div class="relative flex flex-col rounded border border-white/20">
+<!-- Code colors come from the dual shiki theme, see app.css. -->
+<div
+	class="relative flex flex-col rounded-3xl border border-outline-variant/50 bg-surface-container-high"
+>
 	{#if title}
 		<div
-			class="px-5 py-1 bg-white/5 h-10 border-b flex items-center border-white/20"
+			class="px-5 py-1 h-10 border-b flex items-center border-outline-variant/50 text-on-surface-variant"
 		>
 			<span>
 				{title}
@@ -66,7 +71,7 @@
 	{/if}
 	<div class="absolute top-0 right-0 items-center gap-x-2 flex">
 		{#if isCopied}
-			<span transition:fade class="text-sm font-light text-primary/70">
+			<span transition:fade class="text-sm font-light text-primary">
 				Kopyalandı!
 			</span>
 		{/if}
@@ -82,23 +87,15 @@
 					/>
 				</span>
 			{:else}
-				<span class="text-white/30 hover:text-primary">
+				<span class="text-on-surface-variant/60 hover:text-primary">
 					<Icon icon="line-md:clipboard" width="26" />
 				</span>
 			{/if}
 		</button>
 	</div>
 	<pre
-		class="language-{lang} scrollbar scrollbar-thumb-white/20 p-5 m-0 bg-transparent"><code
+		class="language-{lang} scrollbar scrollbar-thumb-outline-variant p-5 m-0 bg-transparent"><code
 			>{@html outHTML}</code
 		></pre>
 </div>
 
-<style lang="postcss">
-	.gridbg {
-		background-image:
-			linear-gradient(to right, #ececec18 1px, transparent 1px),
-			linear-gradient(to bottom, #ececec18 1px, transparent 1px);
-		background-size: 16px 16px;
-	}
-</style>

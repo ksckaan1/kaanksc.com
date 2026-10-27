@@ -75,14 +75,14 @@
 		<div
 			class="
 			flex flex-col relative
-			border border-white/20 gap-0 bg-gray-900 rounded w-full max-w-6xl
+			border border-outline-variant/50 gap-0 bg-surface-container text-on-surface rounded-3xl w-full max-w-6xl
 			cursor-auto
 			"
 			in:receive={{ key: "123" }}
 			out:send={{ key: "123" }}
 		>
 			<button
-				class="absolute right-0 -top-12 bg-gray-900 rounded border border-white/20 px-2 py-1"
+				class="absolute right-0 -top-12 bg-surface-container-high text-on-surface rounded-full border border-outline-variant/50 px-3 py-1"
 				onclick={() => (isMaximized = false)}
 			>
 				Esc
@@ -90,7 +90,7 @@
 			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<img
-				class="m-0 border-b border-white/20 rounded-t"
+				class="m-0 border-b border-outline-variant/50 rounded-t-3xl"
 				src={elems[activeIndex].img}
 				alt={elems[activeIndex].caption}
 				onclick={() => (isMaximized = true)}
@@ -124,13 +124,13 @@
 	<div
 		class="
 		flex flex-col relative
-		border border-white/20 gap-0 bg-gray-900 rounded
+		border border-outline-variant/50 gap-0 bg-surface-container text-on-surface rounded-3xl
 		group"
 		in:receive={{ key: "123" }}
 		out:send={{ key: "123" }}
 	>
 		<div
-			class="opacity-0 transition-opacity flex items-center gap-x-3 duration-200 group-hover:opacity-100 absolute left-0 w-full -top-10 bg-primary text-black px-3 py-1 rounded"
+			class="opacity-0 transition-opacity flex items-center gap-x-3 duration-200 group-hover:opacity-100 absolute left-0 w-full -top-10 bg-primary text-on-primary px-3 py-1 rounded-full"
 		>
 			<Icon icon="material-symbols:info-outline" width="24" height="24" />
 			<span>Büyültmek için resme tıklayın</span>
@@ -138,7 +138,7 @@
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<img
-			class="m-0 border-b border-white/20 cursor-pointer"
+			class="m-0 border-b border-outline-variant/50 cursor-pointer"
 			src={elems[activeIndex].img}
 			alt={elems[activeIndex].caption}
 			onclick={() => (isMaximized = true)}

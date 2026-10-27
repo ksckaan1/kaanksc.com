@@ -37,56 +37,62 @@
 
 <!-- POST HEADER -->
 <div
-	class="w-full gridbg border-b border-white/20 py-5 text-primary relative overflow-x-hidden"
+	class="relative w-full overflow-x-hidden border-b border-outline-variant/40 bg-surface-container py-10"
 >
-	<div class="max-w-5xl w-full px-5 mx-auto">
+	<div class="mx-auto w-full max-w-5xl px-4">
 		<a
-			class="text-primary self-start rounded font-light text-4xl"
-			href="/blog/"
+			class="text-sm font-medium text-primary hover:underline"
+			href="/blog/">← Yazılar</a
 		>
-			<h1 class="section-title">YAZILAR</h1></a
-		>
-		<div class="flex flex-col gap-3 py-5 text-primary rounded">
-			<h2 class="text-primary text-3xl font-light">{data.meta.title}</h2>
-			<p class="text-white/60 font-light">{formatDate(data.meta.date)}</p>
-			<div class="text-white/80 flex flex-wrap gap-2 font-light">
+		<div class="mt-3 flex flex-col gap-3">
+			<h1 class="text-balance text-4xl font-black tracking-tight text-on-surface sm:text-5xl">
+				{data.meta.title}
+			</h1>
+			<p class="text-on-surface-variant">{formatDate(data.meta.date)}</p>
+			<div class="flex flex-wrap gap-2">
 				{#each data.meta.tags as tag}
-					<span class="text-lg">#{tag}</span>
+					<span
+						class="rounded-full bg-secondary-container px-3 py-1 text-xs font-medium text-on-secondary-container"
+					>
+						#{tag}
+					</span>
 				{/each}
 			</div>
 		</div>
 	</div>
 
 	{#if !data.meta.published}
-		<div class="absolute top-5 -right-10">
-			<div class="bg-primary text-black px-10 rotate-45 font-bold">Taslak</div>
+		<div class="absolute -right-10 top-5">
+			<div class="rotate-45 bg-error px-10 py-1 font-bold text-on-error">
+				Taslak
+			</div>
 		</div>
 	{/if}
 </div>
 
 <!-- POST FIELD -->
 
-<div
-	class="prose prose-invert max-w-2xl w-full px-5 mx-auto mt-10 text-slate-300"
->
+<article class="prose mx-auto mt-10 w-full max-w-2xl px-4">
 	<!-- svelte-ignore svelte_component_deprecated -->
 	<svelte:component this={data.content} />
-</div>
-<div class="flex gap-5 flex-wrap max-w-5xl px-5 w-full mx-auto mt-10">
+</article>
+<div class="mx-auto mt-12 flex w-full max-w-5xl flex-wrap gap-4 px-4">
 	{#each authors as author}
 		<a
 			href={author?.link}
-			class="flex gap-x-5 text-primary border w-full border-white/20 p-5 rounded items-center"
+			class="flex w-full items-center gap-5 rounded-3xl bg-surface-container p-5 transition-colors hover:bg-surface-container-high"
 			target="_blank"
 		>
 			<img
 				src={author?.avatar_url}
-				class="w-20 rounded-full border border-white/20"
+				class="w-20 rounded-full border border-outline-variant/50"
 				alt={author?.full_name}
 			/>
 			<div>
-				<h3 class="text-primary text-xl">{author?.full_name}</h3>
-				<h3 class="text-white/60">{author?.title}</h3>
+				<h3 class="text-xl font-semibold text-on-surface">
+					{author?.full_name}
+				</h3>
+				<p class="text-on-surface-variant">{author?.title}</p>
 			</div>
 		</a>
 	{/each}

@@ -29,8 +29,8 @@
     <meta property="twitter:image" content="https://kaanksc.com/og/main.webp" />
 </svelte:head>
 
-<div class="w-full max-w-5xl mx-auto p-5 flex flex-col gap-10">
+<div class="mx-auto flex w-full max-w-5xl flex-col gap-14 px-4 py-8">
     <Contacts />
-    <LastPosts limit={5} offset={0} />
+    <LastPosts limit={4} offset={0} />
     <PinnedProjects />
 </div>

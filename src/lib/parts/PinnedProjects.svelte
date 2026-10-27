@@ -1,5 +1,5 @@
 <script lang="ts">
-	const pinned5projects = [
+	const pinnedProjects = [
 		{
 			title: "Go Programlama Dili E-Kitap",
 			description: "Go programlama dili için Türkçe eğitim kaynağı",
@@ -23,37 +23,44 @@
 			link: "http://github.com/ksckaan1/uber-go-style-guide-tr",
 		},
 		{
-			title: "APIredator",
-			description: "API Load Testing aracı",
-			link: "http://github.com/ksckaan1/apiredator",
+			title: "crtui",
+			description:
+				"Container registry yönetimi için terminal tabanlı TUI aracı",
+			link: "http://github.com/ksckaan1/crtui",
+		},
+		{
+			title: "gokachu",
+			description:
+				"Go programlama dili için TTL ve Generic ile in-memory cache paketi",
+			link: "http://github.com/ksckaan1/gokachu",
 		},
 	];
 </script>
 
-<div class="flex flex-col gap-5 mt-5">
-	<h1 class="section-title !text-3xl">SABİTLENEN 5 PROJE</h1>
-	<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-		{#each pinned5projects as project}
+<div class="mt-4 flex flex-col gap-4">
+	<div class="flex items-baseline justify-between gap-4">
+		<h1 class="section-title">Sabitlenen Projeler</h1>
+		<a
+			href="/projects/"
+			class="shrink-0 rounded-full bg-secondary-container px-4 py-2 text-sm font-medium text-on-secondary-container transition-colors hover:bg-primary-container hover:text-on-primary-container"
+		>
+			Tümü
+		</a>
+	</div>
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+		{#each pinnedProjects as project}
 			<a
 				href={project.link}
 				target="_blank"
-				class="p-3 border border-white/20 text-primary rounded gridbg"
+				class="group flex flex-col gap-2 rounded-3xl bg-surface-container p-5 transition-colors hover:bg-surface-container-high"
 			>
-				<h2 class="text-primary text-xl font-light">
+				<h2
+					class="text-xl font-semibold text-on-surface transition-colors group-hover:text-primary"
+				>
 					{project.title}
 				</h2>
-				<p class="text-white/60 font-light">
-					{project.description}
-				</p>
+				<p class="text-on-surface-variant">{project.description}</p>
 			</a>
 		{/each}
-		<a
-			href="/projects/"
-			class="border flex justify-center p-5 items-center bg-white/5 border-white/20 text-primary rounded"
-		>
-			<h2 class="text-primary text-xl font-light">
-				Tüm projeleri gör &rightarrow;
-			</h2>
-		</a>
 	</div>
 </div>

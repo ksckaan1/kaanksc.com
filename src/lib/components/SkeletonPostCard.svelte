@@ -3,18 +3,18 @@
 </script>
 
 <div
-    class="border flex flex-col justify-start p-5 items-start bg-white/5 border-white/20 gap-3 text-primary rounded"
+    class="flex flex-col items-start justify-start gap-3 rounded-3xl bg-surface-container p-5"
 >
     <div
         style="width: {randomPercent()}"
-        class="rounded bg-white/20 h-5 animate-pulse"
+        class="h-5 animate-pulse rounded-full bg-surface-container-highest"
     ></div>
     <div
         style="width: {randomPercent()}"
-        class="rounded bg-white/20 h-5 animate-pulse"
+        class="h-5 animate-pulse rounded-full bg-surface-container-highest"
     ></div>
     <div
         style="width: {randomPercent()}"
-        class="rounded bg-white/20 h-5 animate-pulse"
+        class="h-5 animate-pulse rounded-full bg-surface-container-highest"
     ></div>
 </div>

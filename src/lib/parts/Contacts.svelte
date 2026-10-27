@@ -14,12 +14,6 @@
 			link: "https://x.com/ksckaan1",
 			icon: "line-md:twitter-x",
 		},
-		// {
-		// 	title: "Instagram",
-		// 	subtitle: "ksckaan1",
-		// 	link: "https://instagram.com/ksckaan1",
-		// 	icon: "line-md:instagram",
-		// },
 		{
 			title: "Reddit",
 			subtitle: "ksckaan1",
@@ -47,27 +41,27 @@
 	];
 </script>
 
-<div class="flex flex-col gap-5">
-	<h1 class="section-title !text-3xl">İLETİŞİM</h1>
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-		{#each contactList as contact, i}
-			<a href={contact.link} target="_blank" class="text-primary">
+<div class="flex flex-col gap-4">
+	<h1 class="section-title">İletişim</h1>
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+		{#each contactList as contact}
+			<a
+				href={contact.link}
+				target="_blank"
+				class="group flex items-center gap-4 rounded-3xl bg-surface-container p-4 transition-colors hover:bg-surface-container-high"
+			>
 				<div
-					class="flex border hover:bg-black/40 transition-colors border-white/20 items-center rounded-lg bg-black/20"
+					class="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary-container text-on-primary-container transition-transform group-hover:scale-105"
 				>
-					<div
-						class="w-28 p-5 text-primary aspect-square flex items-center justify-center gridbg border-r border-white/20"
-					>
-						<Icon icon={contact.icon} height="60" />
-					</div>
-					<div class="p-5 text-slate-300">
-						<h2 class="text-kYellow text-3xl font-light">
-							{contact.title}
-						</h2>
-						<h3 class="text-kWhite/70 text-lg font-light">
-							{contact.subtitle}
-						</h3>
-					</div>
+					<Icon icon={contact.icon} height="28" />
+				</div>
+				<div class="min-w-0">
+					<h2 class="truncate text-xl font-semibold text-on-surface">
+						{contact.title}
+					</h2>
+					<h3 class="truncate text-sm text-on-surface-variant">
+						{contact.subtitle}
+					</h3>
 				</div>
 			</a>
 		{/each}
